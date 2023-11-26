@@ -42,7 +42,6 @@ class _EstructuraPageState extends State<EstructuraPage> {
               borderRadius: BorderRadius.circular(9.0)),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: context.watch<ReportProvider>().estructura,
               icon: const Icon(
                 Icons.arrow_drop_down,
                 color: Colors.black87,
@@ -59,6 +58,9 @@ class _EstructuraPageState extends State<EstructuraPage> {
               iconDisabledColor: Colors.white,
               isExpanded: true,
               isDense: true,
+              value: context.watch<ReportProvider>().estructura.isNotEmpty
+                  ? context.watch<ReportProvider>().estructura
+                  : tiposEstructura[0],
               items: tiposEstructura.map((String item) {
                 return DropdownMenuItem(
                   value: item,
@@ -73,7 +75,22 @@ class _EstructuraPageState extends State<EstructuraPage> {
             ),
           ),
         ),
+        botonSiguiente(context),
       ],
     );
   }
+}
+
+Widget botonSiguiente(BuildContext context) {
+  return ElevatedButton(
+    onPressed: () {},
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: const [
+        Text("Siguiente"),
+        SizedBox(width: 5.0),
+        Icon(Icons.arrow_forward),
+      ],
+    ),
+  );
 }
