@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'providers/report_providers.dart';
+import 'providers/providers.dart';
 import 'screens/screens.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => ReportProvider(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ReportProvider()),
+      ChangeNotifierProvider(create: (_) => PaginationProvider()),
+    ],
     child: const MyApp(),
   ));
 }

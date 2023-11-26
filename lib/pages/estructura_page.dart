@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/report_providers.dart';
+import '../providers/providers.dart';
 
 class EstructuraPage extends StatefulWidget {
   const EstructuraPage({super.key});
@@ -24,11 +24,9 @@ class _EstructuraPageState extends State<EstructuraPage> {
       children: [
         const Text(
           "Tipo de estructura dañada:",
-          //textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 17.0,
             fontWeight: FontWeight.bold,
-            //color: Colors.black87,
           ),
         ),
         Container(
