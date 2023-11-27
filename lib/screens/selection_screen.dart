@@ -14,15 +14,24 @@ class _SelectionScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: /* context.watch<PaginationProvider>().currentPage != EstructuraPage() ? */ IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            context.read<PaginationProvider>().previousPage();
-          },
-        ),
-        title: const Text("Estructura"),
+        leading: context.watch<PaginationProvider>().titulo != "Estructura"
+            ? backArrow(context)
+            : null,
+        title: Text(context.watch<PaginationProvider>().titulo),
       ),
       body: context.watch<PaginationProvider>().currentPage,
+    );
+  }
+
+  Widget backArrow(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back, color: Colors.black),
+      onPressed: () {
+        setState(() {
+          context.read<PaginationProvider>().previousPage();
+          context.read<PaginationProvider>().setTitulo();
+        });
+      },
     );
   }
 }

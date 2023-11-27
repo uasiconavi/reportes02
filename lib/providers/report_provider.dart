@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReportProvider with ChangeNotifier {
-  String _estructura = '';
+  String _estructura = "Carretera";
 
   String get estructura => _estructura;
 

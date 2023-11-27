@@ -56,9 +56,7 @@ class _EstructuraPageState extends State<EstructuraPage> {
               iconDisabledColor: Colors.white,
               isExpanded: true,
               isDense: true,
-              value: context.watch<ReportProvider>().estructura.isNotEmpty
-                  ? context.watch<ReportProvider>().estructura
-                  : tiposEstructura[0],
+              value: context.watch<ReportProvider>().estructura,
               items: tiposEstructura.map((String item) {
                 return DropdownMenuItem(
                   value: item,
