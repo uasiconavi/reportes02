@@ -10,7 +10,7 @@ class EstructuraPage extends StatefulWidget {
 }
 
 class _EstructuraPageState extends State<EstructuraPage> {
-  List<String> tiposEstructura = [
+  List<String> estructuras = [
     "Carretera",
     "Puente",
     "Alcantarilla mayor",
@@ -57,7 +57,7 @@ class _EstructuraPageState extends State<EstructuraPage> {
               isExpanded: true,
               isDense: true,
               value: context.watch<ReportProvider>().estructura,
-              items: tiposEstructura.map((String item) {
+              items: estructuras.map((String item) {
                 return DropdownMenuItem(
                   value: item,
                   child: Text(item),
@@ -79,7 +79,9 @@ class _EstructuraPageState extends State<EstructuraPage> {
 
 Widget botonSiguiente(BuildContext context) {
   return ElevatedButton(
-    onPressed: () {},
+    onPressed: () {
+      context.read<PaginationProvider>().nextPage();
+    },
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: const [
