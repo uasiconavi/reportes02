@@ -47,7 +47,6 @@ class _ElementoPageState extends State<ElementoPage> {
                     borderRadius: BorderRadius.circular(9.0)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    value: context.watch<ReportProvider>().elemento,
                     icon: const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.black87,
@@ -64,6 +63,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     iconDisabledColor: Colors.white,
                     isExpanded: true,
                     isDense: true,
+                    value: context.watch<ReportProvider>().elemento,
                     items: elementos.map((String item) {
                       return DropdownMenuItem(
                         value: item,
@@ -91,7 +91,9 @@ class _ElementoPageState extends State<ElementoPage> {
   void leerCSV() async {
     final rawData = await rootBundle.loadString("assets/elementos.csv");
     List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
-    completoCSV = listData;
+    setState(() {
+      completoCSV = listData;
+    });
   }
 
   void llenarListaElementos() {

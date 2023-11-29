@@ -81,6 +81,7 @@ Widget botonSiguiente(BuildContext context) {
   return ElevatedButton(
     onPressed: () {
       context.read<PaginationProvider>().nextPage();
+      context.read<PaginationProvider>().setTitulo();
     },
     child: Row(
       mainAxisSize: MainAxisSize.min,
