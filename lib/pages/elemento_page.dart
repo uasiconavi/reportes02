@@ -14,11 +14,16 @@ class ElementoPage extends StatefulWidget {
 class _ElementoPageState extends State<ElementoPage> {
   List<List<dynamic>> completoCSV = [];
   List<String> elementos = [];
+  bool primeraVezElemento = true;
 
   @override
   Widget build(BuildContext context) {
-    leerCSV();
-    llenarListaElementos();
+    if (primeraVezElemento == true) {
+      leerCSV();
+      llenarListaElementos();
+      primeraVezElemento = false;
+    }
+
     return ListView(
       children: [
         encabezado(context),
@@ -72,9 +77,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       setState(() {
-                        context
-                            .read<ReportProvider>()
-                            .setEstructura(nuevoValor!);
+                        context.read<ReportProvider>().setElemento(nuevoValor!);
                       });
                     },
                   ),

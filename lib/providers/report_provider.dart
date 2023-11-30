@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ReportProvider with ChangeNotifier {
   String _estructura = "Carretera";
-  String _elemento = "";
+  String _elemento = "Calzada";
   int _columnaEstructura = 0;
 
   String get estructura => _estructura;
