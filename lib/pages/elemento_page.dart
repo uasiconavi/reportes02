@@ -13,17 +13,23 @@ class ElementoPage extends StatefulWidget {
 
 class _ElementoPageState extends State<ElementoPage> {
   List<List<dynamic>> completoCSV = [];
-  List<String> elementos = [];
-  bool primeraVezElemento = true;
 
   @override
   Widget build(BuildContext context) {
-    if (primeraVezElemento == true) {
-      leerCSV();
-      llenarListaElementos();
-      primeraVezElemento = false;
-    }
+    String estructura = context.watch<ReportProvider>().estructura;
+    leerCSV();
+    List<String> elementos = [];
+    int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
+    String palabra = "";
 
+    if (completoCSV.isNotEmpty) {
+      for (var i = 1; i < completoCSV.length; i++) {
+        palabra = completoCSV[i][columnaEstructura];
+        if (palabra.isNotEmpty) {
+          elementos.add(palabra);
+        }
+      }
+    }
     return ListView(
       children: [
         encabezado(context),
@@ -33,7 +39,7 @@ class _ElementoPageState extends State<ElementoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Elemento dañado de:',
+                'Elemento dañado de "$estructura":',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -97,19 +103,6 @@ class _ElementoPageState extends State<ElementoPage> {
     setState(() {
       completoCSV = listData;
     });
-  }
-
-  void llenarListaElementos() {
-    String palabra = "";
-    int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
-    if (completoCSV.isNotEmpty) {
-      for (var i = 1; i < completoCSV.length; i++) {
-        palabra = completoCSV[i][columnaEstructura];
-        if (palabra.isNotEmpty) {
-          elementos.add(palabra);
-        }
-      }
-    }
   }
 }
 
