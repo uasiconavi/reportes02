@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 class ReportProvider with ChangeNotifier {
   String _estructura = "Carretera";
-  String _elemento = "Calzada";
   int _columnaEstructura = 0;
+  String _elemento = "Calzada";
+  int _columnaElemento = 0;
+  String _dano = "";
 
   String get estructura => _estructura;
-  String get elemento => _elemento;
   int get columnaEstructura => _columnaEstructura;
+  String get elemento => _elemento;
+  int get columnaElemento => _columnaElemento;
+  String get dano => _dano;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -34,6 +38,109 @@ class ReportProvider with ChangeNotifier {
 
   void setElemento(String newElemento) {
     _elemento = newElemento;
+    switch (_elemento) {
+      case "Alcantarilla":
+        _dano = "Obstrucción";
+        _columnaElemento = 0;
+        break;
+      case "Calzada":
+        _dano = "Hundimiento";
+        _columnaElemento = 1;
+        break;
+      case "Cuneta":
+        _dano = "Excede la capacidad";
+        _columnaElemento = 2;
+        break;
+      case "Contracuneta":
+        _dano = "Colapso";
+        _columnaElemento = 3;
+        break;
+      case "Muro":
+        _dano = "Agrietamiento";
+        _columnaElemento = 4;
+        break;
+      case "Relleno":
+        _dano = "Asentamiento";
+        _columnaElemento = 5;
+        break;
+      case "Talud":
+        _dano = "Derrumbe";
+        _columnaElemento = 6;
+        break;
+      case "Vado":
+        _dano = "Erosión (grada)";
+        _columnaElemento = 7;
+        break;
+      case "Apoyos":
+        _dano = "Deformación";
+        _columnaElemento = 8;
+        break;
+      case "Bastiones":
+        _dano = "Socavación";
+        _columnaElemento = 9;
+        break;
+      case "Elementos de protección":
+        _dano = "Agrietamiento";
+        _columnaElemento = 10;
+        break;
+      case "Márgenes":
+        _dano = "Modificación del cauce";
+        _columnaElemento = 11;
+        break;
+      case "Pilas":
+        _dano = "Socavación";
+        _columnaElemento = 12;
+        break;
+      case "Relleno de aproximación":
+        _dano = "Hundimiento";
+        _columnaElemento = 13;
+        break;
+      case "Superestructura":
+        _dano = "Falla de elemento de acero";
+        _columnaElemento = 14;
+        break;
+      case "Pasarela peatonal":
+        _dano = "Agrietamiento estructural";
+        _columnaElemento = 15;
+        break;
+      case "Aletones":
+        _dano = "Acumulación de escombros";
+        _columnaElemento = 16;
+        break;
+      case "Delantal":
+        _dano = "Socavación";
+        _columnaElemento = 17;
+        break;
+      case "Rellenos":
+        _dano = "Pérdida parcial del relleno";
+        _columnaElemento = 18;
+        break;
+      case "Estructura principal":
+        _dano = "Deformación (acero)";
+        _columnaElemento = 19;
+        break;
+      case "Accesos":
+        _dano = "Colapso";
+        _columnaElemento = 20;
+        break;
+      case "Súper-estructura":
+        _dano = "Desplazamiento";
+        _columnaElemento = 21;
+        break;
+      case "Apoyo paso principal":
+        _dano = "Inclinación";
+        _columnaElemento = 22;
+        break;
+      case "Apoyos intermedios":
+        _dano = "Agrietamiento estructural";
+        _columnaElemento = 23;
+        break;
+    }
+    notifyListeners();
+  }
+
+  void setDano(String newDano) {
+    _dano = newDano;
     notifyListeners();
   }
 }

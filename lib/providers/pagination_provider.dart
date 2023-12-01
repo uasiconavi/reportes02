@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes02/pages/dano_page.dart';
 import 'package:reportes02/pages/elemento_page.dart';
 import '../pages/pages.dart';
 
@@ -9,6 +10,7 @@ class PaginationProvider with ChangeNotifier {
   final List<Widget> _pages = [
     const EstructuraPage(),
     const ElementoPage(),
+    const DanoPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -31,6 +33,9 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 1:
         _titulo = "Elemento";
+        break;
+      case 2:
+        _titulo = "Daño";
         break;
     }
     notifyListeners();

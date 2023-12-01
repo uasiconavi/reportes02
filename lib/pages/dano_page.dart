@@ -4,30 +4,29 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 
-class ElementoPage extends StatefulWidget {
-  const ElementoPage({super.key});
+class DanoPage extends StatefulWidget {
+  const DanoPage({super.key});
 
   @override
-  State<ElementoPage> createState() => _ElementoPageState();
+  State<DanoPage> createState() => _DanoPageState();
 }
 
-class _ElementoPageState extends State<ElementoPage> {
+class _DanoPageState extends State<DanoPage> {
   List<List<dynamic>> completoCSV = [];
 
   @override
   Widget build(BuildContext context) {
-    String estructura = context.watch<ReportProvider>().estructura;
-
+    String elemento = context.watch<ReportProvider>().elemento;
     leerCSV();
-    List<String> elementos = [];
-    int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
+    List<String> danos = [];
+    int columnaElemento = context.watch<ReportProvider>().columnaElemento;
     String palabra = "";
 
     if (completoCSV.isNotEmpty) {
       for (var i = 1; i < completoCSV.length; i++) {
-        palabra = completoCSV[i][columnaEstructura];
+        palabra = completoCSV[i][columnaElemento];
         if (palabra.isNotEmpty) {
-          elementos.add(palabra);
+          danos.add(palabra);
         }
       }
     }
@@ -35,12 +34,12 @@ class _ElementoPageState extends State<ElementoPage> {
       children: [
         encabezado(context),
         SizedBox(
-          height: 570.0,
+          height: 556.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Elemento dañado de "$estructura":',
+                'Tipo de daño de "$elemento":',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -49,7 +48,7 @@ class _ElementoPageState extends State<ElementoPage> {
                 textAlign: TextAlign.center,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -66,7 +65,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     iconSize: 40.0,
                     style: const TextStyle(
                       color: Colors.black87,
-                      fontSize: 16.0,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                     borderRadius: BorderRadius.circular(9.0),
@@ -75,8 +74,8 @@ class _ElementoPageState extends State<ElementoPage> {
                     iconDisabledColor: Colors.white,
                     isExpanded: true,
                     isDense: true,
-                    value: context.watch<ReportProvider>().elemento,
-                    items: elementos.map((String item) {
+                    value: context.watch<ReportProvider>().dano,
+                    items: danos.map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),
@@ -84,7 +83,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       setState(() {
-                        context.read<ReportProvider>().setElemento(nuevoValor!);
+                        context.read<ReportProvider>().setDano(nuevoValor!);
                       });
                     },
                   ),
@@ -99,7 +98,7 @@ class _ElementoPageState extends State<ElementoPage> {
   }
 
   void leerCSV() async {
-    final rawData = await rootBundle.loadString("assets/elementos.csv");
+    final rawData = await rootBundle.loadString("assets/danos.csv");
     List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
     setState(() {
       completoCSV = listData;
@@ -126,18 +125,29 @@ Widget encabezado(BuildContext context) {
                 )),
           ],
         ),
+        Row(
+          children: [
+            const Text('Elemento:  ',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                )),
+            Text(context.watch<ReportProvider>().elemento,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                )),
+          ],
+        ),
       ],
     ),
   );
 }
 
 Widget botonSiguiente(BuildContext context) {
-  String elemento = context.watch<ReportProvider>().elemento;
   return ElevatedButton(
     onPressed: () {
-      context.read<ReportProvider>().setElemento(elemento);
-      context.read<PaginationProvider>().nextPage();
-      context.read<PaginationProvider>().setTitulo();
+      /* context.read<PaginationProvider>().nextPage();
+      context.read<PaginationProvider>().setTitulo(); */
     },
     child: Row(
       mainAxisSize: MainAxisSize.min,
