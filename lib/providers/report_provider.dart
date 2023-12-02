@@ -4,14 +4,16 @@ class ReportProvider with ChangeNotifier {
   String _estructura = "Carretera";
   int _columnaEstructura = 0;
   String _elemento = "Calzada";
-  int _columnaElemento = 0;
-  String _dano = "";
+  int _columnaElemento = 1;
+  String _dano = "Hundimiento";
+  String _severidad = "Baja";
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
   String get elemento => _elemento;
   int get columnaElemento => _columnaElemento;
   String get dano => _dano;
+  String get severidad => _severidad;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -19,18 +21,26 @@ class ReportProvider with ChangeNotifier {
       case "Carretera":
         _elemento = "Calzada";
         _columnaEstructura = 0;
+        _dano = "Hundimiento";
+        _columnaElemento = 1;
         break;
       case "Puente":
         _elemento = "Bastiones";
         _columnaEstructura = 1;
+        _dano = "Socavación";
+        _columnaElemento = 9;
         break;
       case "Alcantarilla mayor":
         _elemento = "Delantal";
         _columnaEstructura = 2;
+        _dano = "Socavación";
+        _columnaElemento = 17;
         break;
       case "Puente peatonal":
         _elemento = "Apoyo paso principal";
         _columnaEstructura = 3;
+        _dano = "Inclinación";
+        _columnaElemento = 22;
         break;
     }
     notifyListeners();
@@ -141,6 +151,11 @@ class ReportProvider with ChangeNotifier {
 
   void setDano(String newDano) {
     _dano = newDano;
+    notifyListeners();
+  }
+
+  void setSeveridad(String newSeveridad) {
+    _severidad = newSeveridad;
     notifyListeners();
   }
 }

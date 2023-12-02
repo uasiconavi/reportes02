@@ -3,6 +3,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import '../components/components.dart';
 
 class ElementoPage extends StatefulWidget {
   const ElementoPage({super.key});
@@ -17,7 +18,6 @@ class _ElementoPageState extends State<ElementoPage> {
   @override
   Widget build(BuildContext context) {
     String estructura = context.watch<ReportProvider>().estructura;
-
     leerCSV();
     List<String> elementos = [];
     int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
@@ -33,7 +33,7 @@ class _ElementoPageState extends State<ElementoPage> {
     }
     return ListView(
       children: [
-        encabezado(context),
+        encabezadoElemento(context),
         SizedBox(
           height: 570.0,
           child: Column(
@@ -90,7 +90,7 @@ class _ElementoPageState extends State<ElementoPage> {
                   ),
                 ),
               ),
-              botonSiguiente(context),
+              const BotonSiguiente(),
             ],
           ),
         ),
@@ -107,7 +107,7 @@ class _ElementoPageState extends State<ElementoPage> {
   }
 }
 
-Widget encabezado(BuildContext context) {
+Widget encabezadoElemento(BuildContext context) {
   return Container(
     margin: const EdgeInsets.all(8.0),
     child: Column(
@@ -126,25 +126,6 @@ Widget encabezado(BuildContext context) {
                 )),
           ],
         ),
-      ],
-    ),
-  );
-}
-
-Widget botonSiguiente(BuildContext context) {
-  String elemento = context.watch<ReportProvider>().elemento;
-  return ElevatedButton(
-    onPressed: () {
-      context.read<ReportProvider>().setElemento(elemento);
-      context.read<PaginationProvider>().nextPage();
-      context.read<PaginationProvider>().setTitulo();
-    },
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        Text("Siguiente"),
-        SizedBox(width: 5.0),
-        Icon(Icons.arrow_forward),
       ],
     ),
   );

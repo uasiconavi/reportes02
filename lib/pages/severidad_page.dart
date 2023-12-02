@@ -1,55 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
 
-class DanoPage extends StatefulWidget {
-  const DanoPage({super.key});
+class SeveridadPage extends StatefulWidget {
+  const SeveridadPage({super.key});
 
   @override
-  State<DanoPage> createState() => _DanoPageState();
+  State<SeveridadPage> createState() => _SeveridadPageState();
 }
 
-class _DanoPageState extends State<DanoPage> {
-  List<List<dynamic>> completoCSV = [];
+class _SeveridadPageState extends State<SeveridadPage> {
+  List<String> tiposSeveridad = [
+    "Baja",
+    "Media",
+    "Alta",
+  ];
 
   @override
   Widget build(BuildContext context) {
-    String elemento = context.watch<ReportProvider>().elemento;
-    leerCSV();
-    List<String> danos = [];
-    int columnaElemento = context.watch<ReportProvider>().columnaElemento;
-    String palabra = "";
-
-    if (completoCSV.isNotEmpty) {
-      for (var i = 1; i < completoCSV.length; i++) {
-        palabra = completoCSV[i][columnaElemento];
-        if (palabra.isNotEmpty) {
-          danos.add(palabra);
-        }
-      }
-    }
+    String dano = context.watch<ReportProvider>().dano;
     return ListView(
       children: [
-        encabezadoDano(context),
+        encabezadoSeveridad(context),
         SizedBox(
-          height: 556.0,
+          height: 541.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Tipo de daño de "$elemento":',
+                'Severidad del daño "$dano":',
                 style: const TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 15.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                 ),
                 textAlign: TextAlign.center,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 40),
+                margin: const EdgeInsets.symmetric(horizontal: 120),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -66,7 +55,7 @@ class _DanoPageState extends State<DanoPage> {
                     iconSize: 40.0,
                     style: const TextStyle(
                       color: Colors.black87,
-                      fontSize: 16,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                     borderRadius: BorderRadius.circular(9.0),
@@ -75,8 +64,8 @@ class _DanoPageState extends State<DanoPage> {
                     iconDisabledColor: Colors.white,
                     isExpanded: true,
                     isDense: true,
-                    value: context.watch<ReportProvider>().dano,
-                    items: danos.map((String item) {
+                    value: context.watch<ReportProvider>().severidad,
+                    items: tiposSeveridad.map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),
@@ -84,7 +73,9 @@ class _DanoPageState extends State<DanoPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       setState(() {
-                        context.read<ReportProvider>().setDano(nuevoValor!);
+                        context
+                            .read<ReportProvider>()
+                            .setSeveridad(nuevoValor!);
                       });
                     },
                   ),
@@ -97,17 +88,9 @@ class _DanoPageState extends State<DanoPage> {
       ],
     );
   }
-
-  void leerCSV() async {
-    final rawData = await rootBundle.loadString("assets/danos.csv");
-    List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
-    setState(() {
-      completoCSV = listData;
-    });
-  }
 }
 
-Widget encabezadoDano(BuildContext context) {
+Widget encabezadoSeveridad(BuildContext context) {
   return Container(
     margin: const EdgeInsets.all(8.0),
     child: Column(
@@ -115,7 +98,7 @@ Widget encabezadoDano(BuildContext context) {
       children: [
         Row(
           children: [
-            const Text('Estructura: ',
+            const Text('Estructura:  ',
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,
@@ -128,12 +111,25 @@ Widget encabezadoDano(BuildContext context) {
         ),
         Row(
           children: [
-            const Text('Elemento:  ',
+            const Text('Elemento: ',
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,
                 )),
             Text(context.watch<ReportProvider>().elemento,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                )),
+          ],
+        ),
+        Row(
+          children: [
+            const Text('Daño: ',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                )),
+            Text(context.watch<ReportProvider>().dano,
                 style: const TextStyle(
                   fontSize: 12.0,
                 )),
