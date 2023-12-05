@@ -19,7 +19,7 @@ class _ElementoPageState extends State<ElementoPage> {
   Widget build(BuildContext context) {
     String estructura = context.watch<ReportProvider>().estructura;
     leerCSV();
-    List<String> elementos = [];
+    List<String> tiposElemento = [];
     int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
     String palabra = "";
 
@@ -27,7 +27,7 @@ class _ElementoPageState extends State<ElementoPage> {
       for (var i = 1; i < completoCSV.length; i++) {
         palabra = completoCSV[i][columnaEstructura];
         if (palabra.isNotEmpty) {
-          elementos.add(palabra);
+          tiposElemento.add(palabra);
         }
       }
     }
@@ -76,7 +76,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     isExpanded: true,
                     isDense: true,
                     value: context.watch<ReportProvider>().elemento,
-                    items: elementos.map((String item) {
+                    items: tiposElemento.map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),

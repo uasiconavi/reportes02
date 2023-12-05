@@ -10,6 +10,8 @@ class PaginationProvider with ChangeNotifier {
     const ElementoPage(),
     const DanoPage(),
     const SeveridadPage(),
+    const ServicioPage(),
+    const EventoPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -38,6 +40,12 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 3:
         _titulo = "Severidad";
+        break;
+      case 4:
+        _titulo = "Servicio";
+        break;
+      case 5:
+        _titulo = "Evento";
         break;
     }
     notifyListeners();

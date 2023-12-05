@@ -11,7 +11,7 @@ class EstructuraPage extends StatefulWidget {
 }
 
 class _EstructuraPageState extends State<EstructuraPage> {
-  List<String> estructuras = [
+  List<String> tiposEstructura = [
     "Carretera",
     "Puente",
     "Alcantarilla mayor",
@@ -58,7 +58,7 @@ class _EstructuraPageState extends State<EstructuraPage> {
               isExpanded: true,
               isDense: true,
               value: context.watch<ReportProvider>().estructura,
-              items: estructuras.map((String item) {
+              items: tiposEstructura.map((String item) {
                 return DropdownMenuItem(
                   value: item,
                   child: Text(item),

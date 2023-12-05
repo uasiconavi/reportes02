@@ -19,7 +19,7 @@ class _DanoPageState extends State<DanoPage> {
   Widget build(BuildContext context) {
     String elemento = context.watch<ReportProvider>().elemento;
     leerCSV();
-    List<String> danos = [];
+    List<String> tiposDano = [];
     int columnaElemento = context.watch<ReportProvider>().columnaElemento;
     String palabra = "";
 
@@ -27,7 +27,7 @@ class _DanoPageState extends State<DanoPage> {
       for (var i = 1; i < completoCSV.length; i++) {
         palabra = completoCSV[i][columnaElemento];
         if (palabra.isNotEmpty) {
-          danos.add(palabra);
+          tiposDano.add(palabra);
         }
       }
     }
@@ -76,7 +76,7 @@ class _DanoPageState extends State<DanoPage> {
                     isExpanded: true,
                     isDense: true,
                     value: context.watch<ReportProvider>().dano,
-                    items: danos.map((String item) {
+                    items: tiposDano.map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),

@@ -7,6 +7,8 @@ class ReportProvider with ChangeNotifier {
   int _columnaElemento = 1;
   String _dano = "Hundimiento";
   String _severidad = "Baja";
+  String _servicio = "Habilitado";
+  String _evento = "Lluvia";
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
@@ -14,9 +16,14 @@ class ReportProvider with ChangeNotifier {
   int get columnaElemento => _columnaElemento;
   String get dano => _dano;
   String get severidad => _severidad;
+  String get servicio => _servicio;
+  String get evento => _evento;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
+    _severidad = "Baja";
+    _servicio = "Habilitado";
+    _evento = "Lluvia";
     switch (_estructura) {
       case "Carretera":
         _elemento = "Calzada";
@@ -48,6 +55,9 @@ class ReportProvider with ChangeNotifier {
 
   void setElemento(String newElemento) {
     _elemento = newElemento;
+    _severidad = "Baja";
+    _servicio = "Habilitado";
+    _evento = "Lluvia";
     switch (_elemento) {
       case "Alcantarilla":
         _dano = "Obstrucción";
@@ -151,11 +161,24 @@ class ReportProvider with ChangeNotifier {
 
   void setDano(String newDano) {
     _dano = newDano;
+    _severidad = "Baja";
+    _servicio = "Habilitado";
+    _evento = "Lluvia";
     notifyListeners();
   }
 
   void setSeveridad(String newSeveridad) {
     _severidad = newSeveridad;
+    notifyListeners();
+  }
+
+  void setServicio(String newServicio) {
+    _servicio = newServicio;
+    notifyListeners();
+  }
+
+  void setEvento(String newEvento) {
+    _evento = newEvento;
     notifyListeners();
   }
 }
