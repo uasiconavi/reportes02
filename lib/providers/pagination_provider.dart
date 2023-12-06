@@ -12,6 +12,7 @@ class PaginationProvider with ChangeNotifier {
     const SeveridadPage(),
     const ServicioPage(),
     const EventoPage(),
+    const FechaPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -46,6 +47,9 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 5:
         _titulo = "Evento";
+        break;
+      case 6:
+        _titulo = "Fecha";
         break;
     }
     notifyListeners();

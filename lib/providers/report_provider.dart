@@ -9,6 +9,8 @@ class ReportProvider with ChangeNotifier {
   String _severidad = "Baja";
   String _servicio = "Habilitado";
   String _evento = "Lluvia";
+  String _fecha =
+      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
@@ -18,6 +20,7 @@ class ReportProvider with ChangeNotifier {
   String get severidad => _severidad;
   String get servicio => _servicio;
   String get evento => _evento;
+  String get fecha => _fecha;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -179,6 +182,11 @@ class ReportProvider with ChangeNotifier {
 
   void setEvento(String newEvento) {
     _evento = newEvento;
+    notifyListeners();
+  }
+
+  void setFecha(String newFecha) {
+    _fecha = newFecha;
     notifyListeners();
   }
 }
