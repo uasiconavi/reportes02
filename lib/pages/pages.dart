@@ -5,3 +5,4 @@ export 'severidad_page.dart';
 export 'servicio_page.dart';
 export 'evento_page.dart';
 export 'fecha_page.dart';
+export 'zona_page.dart';
