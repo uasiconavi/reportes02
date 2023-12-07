@@ -14,6 +14,7 @@ class PaginationProvider with ChangeNotifier {
     const EventoPage(),
     const FechaPage(),
     const ZonaPage(),
+    //const RutaPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -54,6 +55,9 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 7:
         _titulo = "Zona";
+        break;
+      case 8:
+        _titulo = "Ruta";
         break;
     }
     notifyListeners();

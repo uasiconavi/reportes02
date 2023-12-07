@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart' show rootBundle;
+//import 'package:csv/csv.dart';
+//import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
+import '../services/services.dart';
 
 class ElementoPage extends StatefulWidget {
   const ElementoPage({super.key});
@@ -13,13 +14,17 @@ class ElementoPage extends StatefulWidget {
 }
 
 class _ElementoPageState extends State<ElementoPage> {
-  List<List<dynamic>> completoCSV = [];
+  //List<List<dynamic>> completoCSV = [];
 
   @override
   Widget build(BuildContext context) {
     String estructura = context.watch<ReportProvider>().estructura;
-    leerCSV();
     List<String> tiposElemento = [];
+    setState(() {
+      tiposElemento = leerElementos(context);
+    });
+
+    /* List<String> tiposElemento = [];
     int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
     String palabra = "";
 
@@ -30,7 +35,7 @@ class _ElementoPageState extends State<ElementoPage> {
           tiposElemento.add(palabra);
         }
       }
-    }
+    } */
     return ListView(
       children: [
         encabezadoElemento(context),
@@ -98,13 +103,13 @@ class _ElementoPageState extends State<ElementoPage> {
     );
   }
 
-  void leerCSV() async {
+  /* void leerCSV() async {
     final rawData = await rootBundle.loadString("assets/elementos.csv");
     List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
     setState(() {
       completoCSV = listData;
     });
-  }
+  } */
 }
 
 Widget encabezadoElemento(BuildContext context) {

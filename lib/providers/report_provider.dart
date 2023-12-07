@@ -12,6 +12,7 @@ class ReportProvider with ChangeNotifier {
   String _fecha =
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
   String _zona = "1-1 San José";
+  String _ruta = "1";
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
@@ -23,6 +24,7 @@ class ReportProvider with ChangeNotifier {
   String get evento => _evento;
   String get fecha => _fecha;
   String get zona => _zona;
+  String get ruta => _ruta;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -194,6 +196,11 @@ class ReportProvider with ChangeNotifier {
 
   void setZona(String newZona) {
     _zona = newZona;
+    notifyListeners();
+  }
+
+  void setRuta(String newRuta) {
+    _ruta = newRuta;
     notifyListeners();
   }
 }
