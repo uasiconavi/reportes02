@@ -1,16 +1,13 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:provider/provider.dart';
-import '../providers/providers.dart';
 
 List<List<dynamic>> completoCSV = [];
 
-List<String> leerElementos(BuildContext context) {
+List<String> leerElementos(int columnaEstructura, BuildContext context) {
   leerCSV();
-  List<String> tiposElemento = [];
-  int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
   String palabra = "";
+  List<String> tiposElemento = [];
 
   if (completoCSV.isNotEmpty) {
     for (var i = 1; i < completoCSV.length; i++) {
