@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:csv/csv.dart';
-//import 'package:flutter/services.dart' show rootBundle;
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
-import '../services/services.dart';
 
 class ElementoPage extends StatefulWidget {
   const ElementoPage({super.key});
@@ -14,35 +13,22 @@ class ElementoPage extends StatefulWidget {
 }
 
 class _ElementoPageState extends State<ElementoPage> {
-  //List<List<dynamic>> completoCSV = [];
-  List<String> tiposElemento = [];
-
-  Future<void> getTiposElemento(int columna) async {
-    tiposElemento = await leerElementos(columna);
-  }
+  List<List<dynamic>> completoCSV = [];
 
   @override
   Widget build(BuildContext context) {
     String estructura = context.watch<ReportProvider>().estructura;
     int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
-    setState(() {
-      getTiposElemento(columnaEstructura);
-    });
-
-    //List<String> tiposElemento = context.watch<ReportProvider>().tiposElemento;
-    //leerCSV();
-    //List<String> tiposElemento = [];
-    //int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
-    //String palabra = "";
-
-    /* if (completoCSV.isNotEmpty) {
+    leerCSV();
+    List<String> tiposElemento = [];
+    if (completoCSV.isNotEmpty) {
       for (var i = 1; i < completoCSV.length; i++) {
-        palabra = completoCSV[i][columnaEstructura];
+        String palabra = completoCSV[i][columnaEstructura];
         if (palabra.isNotEmpty) {
           tiposElemento.add(palabra);
         }
       }
-    } */
+    }
 
     return ListView(
       children: [
@@ -88,7 +74,7 @@ class _ElementoPageState extends State<ElementoPage> {
                     iconDisabledColor: Colors.white,
                     isExpanded: true,
                     isDense: true,
-                    //value: context.watch<ReportProvider>().elemento,
+                    value: context.watch<ReportProvider>().elemento,
                     items: tiposElemento.map((String item) {
                       return DropdownMenuItem(
                         value: item,
@@ -111,13 +97,12 @@ class _ElementoPageState extends State<ElementoPage> {
     );
   }
 
-  /* void leerCSV() async {
+  void leerCSV() async {
     final rawData = await rootBundle.loadString("assets/elementos.csv");
-    //List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
     setState(() {
       completoCSV = const CsvToListConverter().convert(rawData);
     });
-  } */
+  }
 }
 
 Widget encabezadoElemento(BuildContext context) {
