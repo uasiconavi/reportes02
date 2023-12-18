@@ -14,7 +14,7 @@ class PaginationProvider with ChangeNotifier {
     const EventoPage(),
     const FechaPage(),
     const ZonaPage(),
-    //const RutaPage(),
+    const RutaPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
