@@ -19,7 +19,6 @@ class _SeveridadPageState extends State<SeveridadPage> {
 
   @override
   Widget build(BuildContext context) {
-    String dano = context.watch<ReportProvider>().dano;
     return ListView(
       children: [
         encabezadoSeveridad(context),
@@ -29,7 +28,7 @@ class _SeveridadPageState extends State<SeveridadPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Severidad del daño "$dano":',
+                'Severidad del daño "${context.watch<ReportProvider>().dano}":',
                 style: const TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,

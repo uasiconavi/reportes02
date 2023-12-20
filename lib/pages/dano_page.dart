@@ -17,7 +17,6 @@ class _DanoPageState extends State<DanoPage> {
 
   @override
   Widget build(BuildContext context) {
-    String elemento = context.watch<ReportProvider>().elemento;
     leerCSV();
     List<String> tiposDano = [];
     int columnaElemento = context.watch<ReportProvider>().columnaElemento;
@@ -40,7 +39,7 @@ class _DanoPageState extends State<DanoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Tipo de daño de "$elemento":',
+                'Tipo de daño de "${context.watch<ReportProvider>().elemento}":',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,

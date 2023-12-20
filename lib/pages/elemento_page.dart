@@ -17,7 +17,6 @@ class _ElementoPageState extends State<ElementoPage> {
 
   @override
   Widget build(BuildContext context) {
-    String estructura = context.watch<ReportProvider>().estructura;
     int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
     leerCSV();
     List<String> tiposElemento = [];
@@ -39,7 +38,7 @@ class _ElementoPageState extends State<ElementoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Elemento dañado de "$estructura":',
+                'Elemento dañado de "${context.watch<ReportProvider>().estructura}":',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
