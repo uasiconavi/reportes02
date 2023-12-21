@@ -38,8 +38,8 @@ class _ZonaPageState extends State<ZonaPage> {
     "6-2 Los Chiles",
   ];
 
-  List<String> rutas = [];
-  String palabra = "";
+  List<String> listaRutas = [];
+  String primeraRuta = "";
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +97,23 @@ class _ZonaPageState extends State<ZonaPage> {
                     onChanged: (String? nuevoValor) {
                       setState(() {
                         context.read<ReportProvider>().setZona(nuevoValor!);
+                        getRutas(nuevoValor);
+                        //context.read<ReportProvider>().setZona(nuevoValor!);
+                        /* Provider.of<ReportProvider>(context, listen: false)
+                            .setRuta(listaRutas[0]); */
+                        /* context.read<ReportProvider>().setRuta(listaRutas[0]);
+                        context
+                            .read<ReportProvider>()
+                            .setListaRutas(listaRutas); */
                       });
-                      leerRutas(context.watch<ReportProvider>().zona);
+
+                      context.read<ReportProvider>().setListaRutas(listaRutas);
+                      //context.read<ReportProvider>().setRuta(listaRutas[0]);
+                      /* leerExcelRutas(context.watch<ReportProvider>().zona);
                       Provider.of<ReportProvider>(context, listen: false)
                           .setRuta(rutas[0]);
                       Provider.of<ReportProvider>(context, listen: false)
-                          .setListaRutas(rutas);
+                          .setListaRutas(rutas); */
                     },
                   ),
                 ),
@@ -115,7 +126,11 @@ class _ZonaPageState extends State<ZonaPage> {
     );
   }
 
-  void leerRutas(String zona) async {
+  Future<void> getRutas(zona) async {
+    listaRutas = await leerExcelRutas(zona);
+  }
+
+  Future<List<String>> leerExcelRutas(zona) async {
     ByteData data = await rootBundle.load("assets/rvn.xlsx");
     var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     var excel = Excel.decodeBytes(bytes);
@@ -124,6 +139,7 @@ class _ZonaPageState extends State<ZonaPage> {
     int columna1 = 0; //columna de la zona que busco
     int columna2 = 0; //columna de la zona siguiente
     bool primeraCol2 = true; //para que solo entre una vez
+    String palabra = "";
 
     //en este ciclo ubico esas dos columnas en el Excel
     hoja.row(0).forEach((Data? cell) {
@@ -142,7 +158,7 @@ class _ZonaPageState extends State<ZonaPage> {
     });
 
     var celda = hoja.cell;
-    rutas = [];
+    List<String> rutas = [];
 
     //en este ciclo voy llenando la lista de las rutas encontradas entre esas columnas
     for (var col = columna1 - 1; col < columna2 - 1; col++) {
@@ -155,6 +171,7 @@ class _ZonaPageState extends State<ZonaPage> {
         break;
       }
     }
+    return rutas;
   }
 }
 

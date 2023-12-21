@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
-import '../components/components.dart';
+//import '../components/components.dart';
 
 class RutaPage extends StatefulWidget {
   const RutaPage({Key? key}) : super(key: key);
