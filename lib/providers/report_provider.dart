@@ -13,82 +13,6 @@ class ReportProvider with ChangeNotifier {
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
   String _zona = "1-1 San José";
   String _ruta = "2";
-  List<String> _listaRutas = [
-    "2",
-    "3",
-    "5",
-    "32",
-    "39",
-    "100",
-    "101",
-    "102",
-    "105",
-    "108",
-    "109",
-    "110",
-    "117",
-    "175",
-    "176",
-    "200",
-    "201",
-    "202",
-    "203",
-    "204",
-    "205",
-    "209",
-    "211",
-    "213",
-    "214",
-    "215",
-    "216",
-    "217",
-    "218",
-    "220",
-    "306",
-    "307",
-    "308",
-    "309",
-    "10101",
-    "10102",
-    "10103",
-    "10104",
-    "10105",
-    "10106",
-    "10107",
-    "10108",
-    "10109",
-    "10110",
-    "10111",
-    "10112",
-    "10114",
-    "10117",
-    "10119",
-    "10120",
-    "10123",
-    "10124",
-    "10125",
-    "10801",
-    "10802",
-    "10803",
-    "10804",
-    "11001",
-    "11306",
-    "11307",
-    "11401",
-    "11402",
-    "11403",
-    "11504",
-    "11505",
-    "11506",
-    "11507",
-    "11508",
-    "11509",
-    "11510",
-    "11511",
-    "11512",
-    "11513",
-    "11807"
-  ];
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
@@ -101,7 +25,6 @@ class ReportProvider with ChangeNotifier {
   String get fecha => _fecha;
   String get zona => _zona;
   String get ruta => _ruta;
-  List<String> get listaRutas => _listaRutas;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -278,11 +201,6 @@ class ReportProvider with ChangeNotifier {
 
   void setRuta(String newRuta) {
     _ruta = newRuta;
-    notifyListeners();
-  }
-
-  void setListaRutas(List<String> newListaRutas) {
-    _listaRutas = newListaRutas;
     notifyListeners();
   }
 }
