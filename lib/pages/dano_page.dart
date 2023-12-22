@@ -82,9 +82,7 @@ class _DanoPageState extends State<DanoPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      setState(() {
-                        context.read<ReportProvider>().setDano(nuevoValor!);
-                      });
+                      context.read<ReportProvider>().setDano(nuevoValor!);
                     },
                   ),
                 ),

@@ -72,9 +72,7 @@ class _EventoPageState extends State<EventoPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      setState(() {
-                        context.read<ReportProvider>().setEvento(nuevoValor!);
-                      });
+                      context.read<ReportProvider>().setEvento(nuevoValor!);
                     },
                   ),
                 ),

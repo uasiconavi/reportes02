@@ -71,9 +71,7 @@ class _ServicioPageState extends State<ServicioPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      setState(() {
-                        context.read<ReportProvider>().setServicio(nuevoValor!);
-                      });
+                      context.read<ReportProvider>().setServicio(nuevoValor!);
                     },
                   ),
                 ),

@@ -65,9 +65,7 @@ class _EstructuraPageState extends State<EstructuraPage> {
                 );
               }).toList(),
               onChanged: (String? nuevoValor) {
-                setState(() {
-                  context.read<ReportProvider>().setEstructura(nuevoValor!);
-                });
+                context.read<ReportProvider>().setEstructura(nuevoValor!);
               },
             ),
           ),

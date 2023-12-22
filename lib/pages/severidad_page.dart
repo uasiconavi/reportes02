@@ -71,11 +71,7 @@ class _SeveridadPageState extends State<SeveridadPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      setState(() {
-                        context
-                            .read<ReportProvider>()
-                            .setSeveridad(nuevoValor!);
-                      });
+                      context.read<ReportProvider>().setSeveridad(nuevoValor!);
                     },
                   ),
                 ),

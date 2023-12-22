@@ -81,9 +81,7 @@ class _ElementoPageState extends State<ElementoPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      setState(() {
-                        context.read<ReportProvider>().setElemento(nuevoValor!);
-                      });
+                      context.read<ReportProvider>().setElemento(nuevoValor!);
                     },
                   ),
                 ),
