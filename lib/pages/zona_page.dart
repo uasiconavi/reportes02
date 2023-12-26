@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:excel/excel.dart';
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
@@ -38,6 +40,7 @@ class _ZonaPageState extends State<ZonaPage> {
 
   @override
   Widget build(BuildContext context) {
+    _leerRutas(context.watch<ReportProvider>().zona, context);
     return ListView(
       children: [
         encabezadoZona(context),
@@ -101,6 +104,53 @@ class _ZonaPageState extends State<ZonaPage> {
         ),
       ],
     );
+  }
+
+  _leerRutas(String zona, BuildContext context) async {
+    ByteData data = await rootBundle.load("assets/rvn.xlsx");
+    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    var excel = Excel.decodeBytes(bytes);
+    var hoja = excel['sec']; //hoja del archivo de Excel con las secciones
+    int col = 0; //la que avanza una a una
+    int columna1 = 0; //columna de la zona que busco
+    int columna2 = 0; //columna de la zona siguiente
+    bool primeraCol2 = true; //para que solo entre una vez
+    String palabra = ""; //variable utilizada para comparar cada celda
+    List<String> listaRutas = [];
+
+    //en este ciclo ubico esas dos columnas en el Excel
+    hoja.row(0).forEach((Data? cell) {
+      col++;
+      if (cell != null) {
+        palabra = cell.value.toString();
+        if (zona == palabra) {
+          columna1 = col;
+        } else {
+          if (primeraCol2 == true && columna1 != 0) {
+            columna2 = col;
+            primeraCol2 = false;
+          }
+        }
+      }
+    });
+
+    var celda = hoja.cell;
+
+    //en este ciclo voy llenando la lista de las rutas encontradas entre esas columnas
+    for (var col = columna1 - 1; col < columna2 - 1; col++) {
+      palabra = celda(CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 1))
+          .value
+          .toString();
+      if (palabra != 'null') {
+        listaRutas.add(palabra.toString());
+      } else {
+        break;
+      }
+    }
+    setState(() {
+      context.read<ReportProvider>().setListaRutas(listaRutas);
+      context.read<ReportProvider>().setRuta(listaRutas[0]);
+    });
   }
 }
 
