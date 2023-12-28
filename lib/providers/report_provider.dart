@@ -12,8 +12,9 @@ class ReportProvider with ChangeNotifier {
   String _fecha =
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
   String _zona = "1-1 San José";
-  String _ruta = "2";
+  String _ruta = "";
   List<String> _listaRutas = [];
+  bool _primeraVezRuta = true;
 
   String get estructura => _estructura;
   int get columnaEstructura => _columnaEstructura;
@@ -27,6 +28,7 @@ class ReportProvider with ChangeNotifier {
   String get zona => _zona;
   String get ruta => _ruta;
   List<String> get listaRutas => _listaRutas;
+  bool get primeraVezRuta => _primeraVezRuta;
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
@@ -208,6 +210,11 @@ class ReportProvider with ChangeNotifier {
 
   void setListaRutas(List<String> newListaRutas) {
     _listaRutas = newListaRutas;
+    notifyListeners();
+  }
+
+  void setPrimeraVezRuta(bool newPrimeraVezRuta) {
+    _primeraVezRuta = newPrimeraVezRuta;
     notifyListeners();
   }
 }

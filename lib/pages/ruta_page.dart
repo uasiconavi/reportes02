@@ -70,6 +70,7 @@ class _RutaPageState extends State<RutaPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       context.read<ReportProvider>().setRuta(nuevoValor!);
+                      context.read<ReportProvider>().setPrimeraVezRuta(false);
                     },
                   ),
                 ),
