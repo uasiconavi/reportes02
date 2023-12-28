@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes02/pages/seccion_page.dart';
 import '../pages/pages.dart';
 
 class PaginationProvider with ChangeNotifier {
@@ -15,6 +16,7 @@ class PaginationProvider with ChangeNotifier {
     const FechaPage(),
     const ZonaPage(),
     const RutaPage(),
+    const SeccionPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -58,6 +60,9 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 8:
         _titulo = "Ruta";
+        break;
+      case 9:
+        _titulo = "Sección";
         break;
     }
     notifyListeners();

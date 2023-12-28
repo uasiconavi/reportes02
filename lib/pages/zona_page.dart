@@ -37,7 +37,7 @@ class _ZonaPageState extends State<ZonaPage> {
     "6-1 San Carlos",
     "6-2 Los Chiles",
   ];
-  List<String> listaRutas = [];
+
   @override
   Widget build(BuildContext context) {
     _leerRutas(context.watch<ReportProvider>().zona, context);
@@ -94,6 +94,7 @@ class _ZonaPageState extends State<ZonaPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       context.read<ReportProvider>().setZona(nuevoValor!);
+                      context.read<ReportProvider>().setPrimeraVezZona(true);
                       context.read<ReportProvider>().setPrimeraVezRuta(true);
                     },
                   ),
@@ -117,7 +118,7 @@ class _ZonaPageState extends State<ZonaPage> {
     int columna2 = 0; //columna de la zona siguiente
     bool primeraCol2 = true; //para que solo entre una vez
     String palabra = ""; //variable utilizada para comparar cada celda
-    listaRutas = [];
+    List<String> listaRutas = []; //lista de rutas para llenar
 
     //en este ciclo ubico esas dos columnas en el Excel
     hoja.row(0).forEach((Data? cell) {
@@ -150,8 +151,7 @@ class _ZonaPageState extends State<ZonaPage> {
     }
     setState(() {
       context.read<ReportProvider>().setListaRutas(listaRutas);
-      if (Provider.of<ReportProvider>(context, listen: false).primeraVezRuta ==
-          true) {
+      if (Provider.of<ReportProvider>(context, listen: false).primeraVezZona) {
         context.read<ReportProvider>().setRuta(listaRutas[0]);
       }
     });

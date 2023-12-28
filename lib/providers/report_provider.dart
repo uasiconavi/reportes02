@@ -14,6 +14,9 @@ class ReportProvider with ChangeNotifier {
   String _zona = "1-1 San José";
   String _ruta = "";
   List<String> _listaRutas = [];
+  bool _primeraVezZona = true;
+  String _seccion = "";
+  List<String> _listaSecciones = [];
   bool _primeraVezRuta = true;
 
   String get estructura => _estructura;
@@ -28,6 +31,9 @@ class ReportProvider with ChangeNotifier {
   String get zona => _zona;
   String get ruta => _ruta;
   List<String> get listaRutas => _listaRutas;
+  bool get primeraVezZona => _primeraVezZona;
+  String get seccion => _seccion;
+  List<String> get listaSecciones => _listaSecciones;
   bool get primeraVezRuta => _primeraVezRuta;
 
   void setEstructura(String newEstructura) {
@@ -210,6 +216,21 @@ class ReportProvider with ChangeNotifier {
 
   void setListaRutas(List<String> newListaRutas) {
     _listaRutas = newListaRutas;
+    notifyListeners();
+  }
+
+  void setPrimeraVezZona(bool newPrimeraVezZona) {
+    _primeraVezZona = newPrimeraVezZona;
+    notifyListeners();
+  }
+
+  void setSeccion(String newSeccion) {
+    _seccion = newSeccion;
+    notifyListeners();
+  }
+
+  void setListaSecciones(List<String> newListaSecciones) {
+    _listaSecciones = newListaSecciones;
     notifyListeners();
   }
 

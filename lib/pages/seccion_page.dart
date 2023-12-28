@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:excel/excel.dart';
-import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
-import '../components/components.dart';
 
-class RutaPage extends StatefulWidget {
-  const RutaPage({Key? key}) : super(key: key);
+class SeccionPage extends StatefulWidget {
+  const SeccionPage({Key? key}) : super(key: key);
 
   @override
-  State<RutaPage> createState() => _RutaPageState();
+  State<SeccionPage> createState() => _SeccionPageState();
 }
 
-class _RutaPageState extends State<RutaPage> {
+class _SeccionPageState extends State<SeccionPage> {
   @override
   Widget build(BuildContext context) {
-    _leerSecciones(context.watch<ReportProvider>().zona,
-        context.watch<ReportProvider>().ruta, context);
     return ListView(
       children: [
-        encabezadoRuta(context),
-        encabezadoUbicacionRuta(context),
+        encabezadoSeccion(context),
+        encabezadoUbicacionSeccion(context),
         SizedBox(
           height: 458.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Ruta nacional de la zona "${context.watch<ReportProvider>().zona}":',
+                'Sección de control de la Ruta Nacional "${context.watch<ReportProvider>().ruta}":',
                 style: const TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
@@ -62,10 +57,10 @@ class _RutaPageState extends State<RutaPage> {
                     iconDisabledColor: Colors.white,
                     isExpanded: true,
                     isDense: true,
-                    value: context.watch<ReportProvider>().ruta,
+                    value: context.watch<ReportProvider>().seccion,
                     items: context
                         .watch<ReportProvider>()
-                        .listaRutas
+                        .listaSecciones
                         .map((String item) {
                       return DropdownMenuItem(
                         value: item,
@@ -73,87 +68,22 @@ class _RutaPageState extends State<RutaPage> {
                       );
                     }).toList(),
                     onChanged: (String? nuevoValor) {
-                      context.read<ReportProvider>().setRuta(nuevoValor!);
-                      context.read<ReportProvider>().setPrimeraVezRuta(true);
-                      context.read<ReportProvider>().setPrimeraVezZona(false);
+                      context.read<ReportProvider>().setSeccion(nuevoValor!);
+                      context.read<ReportProvider>().setPrimeraVezRuta(false);
                     },
                   ),
                 ),
               ),
-              const BotonSiguiente(),
+              //const BotonSiguiente(),
             ],
           ),
         ),
       ],
     );
   }
-
-  _leerSecciones(String zona, String ruta, BuildContext context) async {
-    ByteData data = await rootBundle.load("assets/rvn.xlsx");
-    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    var excel = Excel.decodeBytes(bytes);
-    var hoja = excel['sec']; //hoja del archivo de Excel con las secciones
-    int col = 0; //la que avanza una a una
-    int columna1 = 0; //columna de la zona que busco
-    int columna2 = 0; //columna de la zona siguiente
-    bool primeraCol2 = true; //para que solo entre una vez
-    String palabra = ""; //variable utilizada para comparar cada celda
-    List<String> listaSecciones = []; //lista de secciones para llenar
-
-    //en este ciclo ubico esas dos columnas en el Excel
-    hoja.row(0).forEach((Data? cell) {
-      col++;
-      if (cell != null) {
-        palabra = cell.value.toString();
-        if (zona == palabra) {
-          columna1 = col;
-        } else {
-          if (primeraCol2 == true && columna1 != 0) {
-            columna2 = col;
-            primeraCol2 = false;
-          }
-        }
-      }
-    });
-
-    // en este otro ciclo encuentro la columna de la ruta que busco
-    col = 0;
-    hoja.row(1).forEach((Data? cell) {
-      col++;
-      if (cell != null) {
-        if (col >= columna1 && col < columna2) {
-          palabra = cell.value.toString();
-          if (ruta == palabra) {
-            columna1 = col;
-          }
-        }
-      }
-    });
-
-    var celda = hoja.cell;
-
-//en este ciclo voy llenando la lista de las secciones encontradas en esa columna
-    for (var i = 2; i < hoja.maxCols; i++) {
-      palabra = celda(CellIndex.indexByColumnRow(
-              columnIndex: columna1 - 1, rowIndex: i))
-          .value
-          .toString();
-      if (palabra != 'null') {
-        listaSecciones.add(palabra.toString());
-      } else {
-        break;
-      }
-    }
-    setState(() {
-      context.read<ReportProvider>().setListaSecciones(listaSecciones);
-      if (Provider.of<ReportProvider>(context, listen: false).primeraVezRuta) {
-        context.read<ReportProvider>().setSeccion(listaSecciones[0]);
-      }
-    });
-  }
 }
 
-Widget encabezadoRuta(BuildContext context) {
+Widget encabezadoSeccion(BuildContext context) {
   return Container(
     margin: const EdgeInsets.all(8.0),
     child: Row(
@@ -275,7 +205,7 @@ Widget encabezadoRuta(BuildContext context) {
   );
 }
 
-Widget encabezadoUbicacionRuta(BuildContext context) {
+Widget encabezadoUbicacionSeccion(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 14.0),
     child: Column(
@@ -291,6 +221,23 @@ Widget encabezadoUbicacionRuta(BuildContext context) {
                     fontWeight: FontWeight.bold,
                   )),
               Text(context.watch<ReportProvider>().zona,
+                  style: const TextStyle(
+                    fontSize: 13.0,
+                  )),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Ruta:  ',
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(context.watch<ReportProvider>().ruta,
                   style: const TextStyle(
                     fontSize: 13.0,
                   )),
