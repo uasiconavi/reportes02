@@ -40,7 +40,9 @@ class _ZonaPageState extends State<ZonaPage> {
 
   @override
   Widget build(BuildContext context) {
-    _leerRutas(context.watch<ReportProvider>().zona, context);
+    if (Provider.of<ReportProvider>(context, listen: false).primeraVezZona) {
+      _leerRutas(context.watch<ReportProvider>().zona, context);
+    }
     return ListView(
       children: [
         encabezadoZona(context),
@@ -151,9 +153,7 @@ class _ZonaPageState extends State<ZonaPage> {
     }
     setState(() {
       context.read<ReportProvider>().setListaRutas(listaRutas);
-      if (Provider.of<ReportProvider>(context, listen: false).primeraVezZona) {
-        context.read<ReportProvider>().setRuta(listaRutas[0]);
-      }
+      context.read<ReportProvider>().setRuta(listaRutas[0]);
     });
   }
 }

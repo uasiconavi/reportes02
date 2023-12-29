@@ -13,22 +13,12 @@ class ElementoPage extends StatefulWidget {
 }
 
 class _ElementoPageState extends State<ElementoPage> {
-  List<List<dynamic>> completoCSV = [];
-
   @override
   Widget build(BuildContext context) {
-    int columnaEstructura = context.watch<ReportProvider>().columnaEstructura;
-    leerCSV();
-    List<String> tiposElemento = [];
-    if (completoCSV.isNotEmpty) {
-      for (var i = 1; i < completoCSV.length; i++) {
-        String palabra = completoCSV[i][columnaEstructura];
-        if (palabra.isNotEmpty) {
-          tiposElemento.add(palabra);
-        }
-      }
+    if (Provider.of<ReportProvider>(context, listen: false)
+        .primeraVezElemento) {
+      _leerDanos(context);
     }
-
     return ListView(
       children: [
         encabezadoElemento(context),
@@ -74,7 +64,10 @@ class _ElementoPageState extends State<ElementoPage> {
                     isExpanded: true,
                     isDense: true,
                     value: context.watch<ReportProvider>().elemento,
-                    items: tiposElemento.map((String item) {
+                    items: context
+                        .watch<ReportProvider>()
+                        .listaElementos
+                        .map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),
@@ -82,6 +75,12 @@ class _ElementoPageState extends State<ElementoPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       context.read<ReportProvider>().setElemento(nuevoValor!);
+                      context
+                          .read<ReportProvider>()
+                          .setPrimeraVezElemento(true);
+                      context
+                          .read<ReportProvider>()
+                          .setPrimeraVezEstructura(false);
                     },
                   ),
                 ),
@@ -94,10 +93,123 @@ class _ElementoPageState extends State<ElementoPage> {
     );
   }
 
-  void leerCSV() async {
-    final rawData = await rootBundle.loadString("assets/elementos.csv");
+  void _leerDanos(BuildContext context) async {
+    int columnaElemento = 0;
+    List<List<dynamic>> completoCSV = [];
+    List<String> listaDanos = [];
+    final rawData = await rootBundle.loadString("assets/danos.csv");
     setState(() {
       completoCSV = const CsvToListConverter().convert(rawData);
+      switch (Provider.of<ReportProvider>(context, listen: false).elemento) {
+        case "Alcantarilla":
+          columnaElemento = 0;
+          context.read<ReportProvider>().setDano("Obstrucción");
+          break;
+        case "Calzada":
+          columnaElemento = 1;
+          context.read<ReportProvider>().setDano("Hundimiento");
+          break;
+        case "Cuneta":
+          columnaElemento = 2;
+          context.read<ReportProvider>().setDano("Excede la capacidad");
+          break;
+        case "Contracuneta":
+          columnaElemento = 3;
+          context.read<ReportProvider>().setDano("Colapso");
+          break;
+        case "Muro":
+          columnaElemento = 4;
+          context.read<ReportProvider>().setDano("Agrietamiento");
+          break;
+        case "Relleno":
+          columnaElemento = 5;
+          context.read<ReportProvider>().setDano("Asentamiento");
+          break;
+        case "Talud":
+          columnaElemento = 6;
+          context.read<ReportProvider>().setDano("Derrumbe");
+          break;
+        case "Vado":
+          columnaElemento = 7;
+          context.read<ReportProvider>().setDano("Erosión (grada)");
+          break;
+        case "Apoyos":
+          columnaElemento = 8;
+          context.read<ReportProvider>().setDano("Deformación");
+          break;
+        case "Bastiones":
+          columnaElemento = 9;
+          context.read<ReportProvider>().setDano("Socavación");
+          break;
+        case "Elementos de protección":
+          columnaElemento = 10;
+          context.read<ReportProvider>().setDano("Agrietamiento");
+          break;
+        case "Márgenes":
+          columnaElemento = 11;
+          context.read<ReportProvider>().setDano("Modificación del cauce");
+          break;
+        case "Pilas":
+          columnaElemento = 12;
+          context.read<ReportProvider>().setDano("Socavación");
+          break;
+        case "Relleno de aproximación":
+          columnaElemento = 13;
+          context.read<ReportProvider>().setDano("Hundimiento");
+          break;
+        case "Superestructura":
+          columnaElemento = 14;
+          context.read<ReportProvider>().setDano("Falla de elemento de acero");
+          break;
+        case "Pasarela peatonal":
+          columnaElemento = 15;
+          context.read<ReportProvider>().setDano("Agrietamiento estructural");
+          break;
+        case "Aletones":
+          columnaElemento = 16;
+          context.read<ReportProvider>().setDano("Acumulación de escombros");
+          break;
+        case "Delantal":
+          columnaElemento = 17;
+          context.read<ReportProvider>().setDano("Socavación");
+          break;
+        case "Rellenos":
+          columnaElemento = 18;
+          context.read<ReportProvider>().setDano("Pérdida parcial del relleno");
+          break;
+        case "Estructura principal":
+          columnaElemento = 19;
+          context.read<ReportProvider>().setDano("Deformación (acero)");
+          break;
+        case "Accesos":
+          columnaElemento = 20;
+          context.read<ReportProvider>().setDano("Colapso");
+          break;
+        case "Súper-estructura":
+          columnaElemento = 21;
+          context.read<ReportProvider>().setDano("Desplazamiento");
+          break;
+        case "Apoyo paso principal":
+          columnaElemento = 22;
+          context.read<ReportProvider>().setDano("Inclinación");
+          break;
+        case "Apoyos intermedios":
+          columnaElemento = 23;
+          context.read<ReportProvider>().setDano("Agrietamiento estructural");
+          break;
+      }
+      if (completoCSV.isNotEmpty) {
+        for (var i = 1; i < completoCSV.length; i++) {
+          String palabra = completoCSV[i][columnaElemento];
+          if (palabra.isNotEmpty) {
+            listaDanos.add(palabra);
+          }
+        }
+      }
+      context.read<ReportProvider>().setListaDanos(listaDanos);
+      context.read<ReportProvider>().setSeveridad("Baja");
+      context.read<ReportProvider>().setServicio("Habilitado");
+      context.read<ReportProvider>().setEvento("Lluvia");
     });
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
@@ -20,6 +22,10 @@ class _EstructuraPageState extends State<EstructuraPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (Provider.of<ReportProvider>(context, listen: false)
+        .primeraVezEstructura) {
+      _leerElementos(context);
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -66,6 +72,8 @@ class _EstructuraPageState extends State<EstructuraPage> {
               }).toList(),
               onChanged: (String? nuevoValor) {
                 context.read<ReportProvider>().setEstructura(nuevoValor!);
+                context.read<ReportProvider>().setPrimeraVezEstructura(true);
+                context.read<ReportProvider>().setPrimeraVezElemento(true);
               },
             ),
           ),
@@ -73,5 +81,42 @@ class _EstructuraPageState extends State<EstructuraPage> {
         const BotonSiguiente(),
       ],
     );
+  }
+
+  void _leerElementos(BuildContext context) async {
+    int columnaEstructura = 0;
+    List<List<dynamic>> completoCSV = [];
+    List<String> listaElementos = [];
+    final rawData = await rootBundle.loadString("assets/elementos.csv");
+    setState(() {
+      completoCSV = const CsvToListConverter().convert(rawData);
+      switch (Provider.of<ReportProvider>(context, listen: false).estructura) {
+        case "Carretera":
+          columnaEstructura = 0;
+          context.read<ReportProvider>().setElemento("Calzada");
+          break;
+        case "Puente":
+          columnaEstructura = 1;
+          context.read<ReportProvider>().setElemento("Bastiones");
+          break;
+        case "Alcantarilla mayor":
+          columnaEstructura = 2;
+          context.read<ReportProvider>().setElemento("Delantal");
+          break;
+        case "Puente peatonal":
+          columnaEstructura = 3;
+          context.read<ReportProvider>().setElemento("Apoyo paso principal");
+          break;
+      }
+      if (completoCSV.isNotEmpty) {
+        for (var i = 1; i < completoCSV.length; i++) {
+          String palabra = completoCSV[i][columnaEstructura];
+          if (palabra.isNotEmpty) {
+            listaElementos.add(palabra);
+          }
+        }
+      }
+      context.read<ReportProvider>().setListaElementos(listaElementos);
+    });
   }
 }

@@ -15,8 +15,10 @@ class RutaPage extends StatefulWidget {
 class _RutaPageState extends State<RutaPage> {
   @override
   Widget build(BuildContext context) {
-    _leerSecciones(context.watch<ReportProvider>().zona,
-        context.watch<ReportProvider>().ruta, context);
+    if (Provider.of<ReportProvider>(context, listen: false).primeraVezRuta) {
+      _leerSecciones(context.watch<ReportProvider>().zona,
+          context.watch<ReportProvider>().ruta, context);
+    }
     return ListView(
       children: [
         encabezadoRuta(context),
@@ -146,9 +148,7 @@ class _RutaPageState extends State<RutaPage> {
     }
     setState(() {
       context.read<ReportProvider>().setListaSecciones(listaSecciones);
-      if (Provider.of<ReportProvider>(context, listen: false).primeraVezRuta) {
-        context.read<ReportProvider>().setSeccion(listaSecciones[0]);
-      }
+      context.read<ReportProvider>().setSeccion(listaSecciones[0]);
     });
   }
 }

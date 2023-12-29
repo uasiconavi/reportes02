@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
@@ -13,23 +11,8 @@ class DanoPage extends StatefulWidget {
 }
 
 class _DanoPageState extends State<DanoPage> {
-  List<List<dynamic>> completoCSV = [];
-
   @override
   Widget build(BuildContext context) {
-    leerCSV();
-    List<String> tiposDano = [];
-    int columnaElemento = context.watch<ReportProvider>().columnaElemento;
-    String palabra = "";
-
-    if (completoCSV.isNotEmpty) {
-      for (var i = 1; i < completoCSV.length; i++) {
-        palabra = completoCSV[i][columnaElemento];
-        if (palabra.isNotEmpty) {
-          tiposDano.add(palabra);
-        }
-      }
-    }
     return ListView(
       children: [
         encabezadoDano(context),
@@ -75,7 +58,10 @@ class _DanoPageState extends State<DanoPage> {
                     isExpanded: true,
                     isDense: true,
                     value: context.watch<ReportProvider>().dano,
-                    items: tiposDano.map((String item) {
+                    items: context
+                        .watch<ReportProvider>()
+                        .listaDanos
+                        .map((String item) {
                       return DropdownMenuItem(
                         value: item,
                         child: Text(item),
@@ -83,6 +69,12 @@ class _DanoPageState extends State<DanoPage> {
                     }).toList(),
                     onChanged: (String? nuevoValor) {
                       context.read<ReportProvider>().setDano(nuevoValor!);
+                      context
+                          .read<ReportProvider>()
+                          .setPrimeraVezElemento(false);
+                      context.read<ReportProvider>().setSeveridad("Baja");
+                      context.read<ReportProvider>().setServicio("Habilitado");
+                      context.read<ReportProvider>().setEvento("Lluvia");
                     },
                   ),
                 ),
@@ -93,14 +85,6 @@ class _DanoPageState extends State<DanoPage> {
         ),
       ],
     );
-  }
-
-  void leerCSV() async {
-    final rawData = await rootBundle.loadString("assets/danos.csv");
-    List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
-    setState(() {
-      completoCSV = listData;
-    });
   }
 }
 
