@@ -1,47 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ReportProvider with ChangeNotifier {
+  bool _primeraVezEstructura = true;
   String _estructura = "Carretera";
+  bool _primeraVezElemento = true;
   String _elemento = "";
   List<String> _listaElementos = [];
-  bool _primeraVezEstructura = true;
   String _dano = "";
   List<String> _listaDanos = [];
-  bool _primeraVezElemento = true;
   String _severidad = "";
   String _servicio = "";
   String _evento = "";
   String _fecha =
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+  bool _primeraVezZona = true;
   String _zona = "1-1 San José";
+  bool _primeraVezRuta = true;
   String _ruta = "";
   List<String> _listaRutas = [];
-  bool _primeraVezZona = true;
   String _seccion = "";
   List<String> _listaSecciones = [];
-  bool _primeraVezRuta = true;
+  Position? _ubicacion;
 
+  bool get primeraVezEstructura => _primeraVezEstructura;
   String get estructura => _estructura;
+  bool get primeraVezElemento => _primeraVezElemento;
   String get elemento => _elemento;
   List<String> get listaElementos => _listaElementos;
-  bool get primeraVezEstructura => _primeraVezEstructura;
   String get dano => _dano;
   List<String> get listaDanos => _listaDanos;
-  bool get primeraVezElemento => _primeraVezElemento;
   String get severidad => _severidad;
   String get servicio => _servicio;
   String get evento => _evento;
   String get fecha => _fecha;
+  bool get primeraVezZona => _primeraVezZona;
   String get zona => _zona;
+  bool get primeraVezRuta => _primeraVezRuta;
   String get ruta => _ruta;
   List<String> get listaRutas => _listaRutas;
-  bool get primeraVezZona => _primeraVezZona;
   String get seccion => _seccion;
   List<String> get listaSecciones => _listaSecciones;
-  bool get primeraVezRuta => _primeraVezRuta;
+  Position? get ubicacion => _ubicacion;
+
+  void setPrimeraVezEstructura(bool newPrimeraVezEstructura) {
+    _primeraVezEstructura = newPrimeraVezEstructura;
+    notifyListeners();
+  }
 
   void setEstructura(String newEstructura) {
     _estructura = newEstructura;
+    notifyListeners();
+  }
+
+  void setPrimeraVezElemento(bool newPrimeraVezElemento) {
+    _primeraVezElemento = newPrimeraVezElemento;
     notifyListeners();
   }
 
@@ -55,11 +68,6 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPrimeraVezEstructura(bool newPrimeraVezEstructura) {
-    _primeraVezEstructura = newPrimeraVezEstructura;
-    notifyListeners();
-  }
-
   void setDano(String newDano) {
     _dano = newDano;
     notifyListeners();
@@ -67,11 +75,6 @@ class ReportProvider with ChangeNotifier {
 
   void setListaDanos(List<String> newListaDanos) {
     _listaDanos = newListaDanos;
-    notifyListeners();
-  }
-
-  void setPrimeraVezElemento(bool newPrimeraVezElemento) {
-    _primeraVezElemento = newPrimeraVezElemento;
     notifyListeners();
   }
 
@@ -95,8 +98,18 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setPrimeraVezZona(bool newPrimeraVezZona) {
+    _primeraVezZona = newPrimeraVezZona;
+    notifyListeners();
+  }
+
   void setZona(String newZona) {
     _zona = newZona;
+    notifyListeners();
+  }
+
+  void setPrimeraVezRuta(bool newPrimeraVezRuta) {
+    _primeraVezRuta = newPrimeraVezRuta;
     notifyListeners();
   }
 
@@ -110,11 +123,6 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPrimeraVezZona(bool newPrimeraVezZona) {
-    _primeraVezZona = newPrimeraVezZona;
-    notifyListeners();
-  }
-
   void setSeccion(String newSeccion) {
     _seccion = newSeccion;
     notifyListeners();
@@ -125,8 +133,8 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPrimeraVezRuta(bool newPrimeraVezRuta) {
-    _primeraVezRuta = newPrimeraVezRuta;
+  void setUbicacion(Position? newUbicacion) {
+    _ubicacion = newUbicacion;
     notifyListeners();
   }
 }
