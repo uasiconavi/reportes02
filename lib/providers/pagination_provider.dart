@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes02/pages/observaciones_page.dart';
 import 'package:reportes02/pages/seccion_page.dart';
 import 'package:reportes02/pages/ubicacion_page.dart';
 import '../pages/pages.dart';
@@ -19,6 +20,7 @@ class PaginationProvider with ChangeNotifier {
     const RutaPage(),
     const SeccionPage(),
     const UbicacionPage(),
+    const ObservacionesPage(),
   ];
 
   Widget get currentPage => _pages[_currentPage];
@@ -68,6 +70,9 @@ class PaginationProvider with ChangeNotifier {
         break;
       case 10:
         _titulo = "Ubicación";
+        break;
+      case 11:
+        _titulo = "Observaciones";
         break;
     }
     notifyListeners();

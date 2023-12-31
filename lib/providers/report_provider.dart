@@ -22,6 +22,7 @@ class ReportProvider with ChangeNotifier {
   String _seccion = "";
   List<String> _listaSecciones = [];
   Position? _ubicacion;
+  String _observaciones = "";
 
   bool get primeraVezEstructura => _primeraVezEstructura;
   String get estructura => _estructura;
@@ -42,6 +43,7 @@ class ReportProvider with ChangeNotifier {
   String get seccion => _seccion;
   List<String> get listaSecciones => _listaSecciones;
   Position? get ubicacion => _ubicacion;
+  String get observaciones => _observaciones;
 
   void setPrimeraVezEstructura(bool newPrimeraVezEstructura) {
     _primeraVezEstructura = newPrimeraVezEstructura;
@@ -135,6 +137,11 @@ class ReportProvider with ChangeNotifier {
 
   void setUbicacion(Position? newUbicacion) {
     _ubicacion = newUbicacion;
+    notifyListeners();
+  }
+
+  void setObservaciones(String newObservaciones) {
+    _observaciones = newObservaciones;
     notifyListeners();
   }
 }

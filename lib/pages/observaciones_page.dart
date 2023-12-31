@@ -1,162 +1,116 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
 
-class UbicacionPage extends StatefulWidget {
-  const UbicacionPage({Key? key}) : super(key: key);
+class ObservacionesPage extends StatefulWidget {
+  const ObservacionesPage({Key? key}) : super(key: key);
 
   @override
-  State<UbicacionPage> createState() => _UbicacionPageState();
+  State<ObservacionesPage> createState() => _ObservacionesPageState();
 }
 
-class _UbicacionPageState extends State<UbicacionPage> {
-  bool buscando = false;
+class _ObservacionesPageState extends State<ObservacionesPage> {
+  TextEditingController observacionesController =
+      TextEditingController(text: "");
+  int longCaracteres = 254;
+  bool guardando = false;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoUbicacion(context),
-        encabezadoUbicacionUbicacion(context),
-        SizedBox(
-          height: 438.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text(
-                'Ubicación:',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
+        encabezadoObservaciones(context),
+        encabezadoUbicacionObservaciones(context),
+        const SizedBox(height: 10.0),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text(
+              'Observaciones y comentarios generales:',
+              style: TextStyle(
+                fontSize: 16.5,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
-              context.watch<ReportProvider>().ubicacion != null
-                  ? verUbicacion(context)
-                  : const Text("Sin datos"),
-              buscando == true
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          buscando = true;
-                        });
-                        final position = await _obtenerUbicacion();
-                        setState(() {
-                          buscando = false;
-                          context.read<ReportProvider>().setUbicacion(position);
-                        });
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Text("Coordenadas"),
-                          SizedBox(width: 5.0),
-                          Icon(Icons.gps_fixed),
-                        ],
-                      ),
-                    ),
-              context.watch<ReportProvider>().ubicacion != null
-                  ? const BotonSiguiente()
-                  : const Text(
-                      "Debe activar los servicios de ubicación y mantenerse en un punto fijo para obtener sus coordenadas.",
-                      textAlign: TextAlign.center,
-                    ),
-              const Text(
-                'De aquí en adelante se requiere conexión a Internet',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black87,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: TextField(
+                textCapitalization: TextCapitalization.sentences,
+                style: const TextStyle(fontSize: 20.0),
+                maxLength: 254,
+                maxLines: 9,
+                controller: observacionesController,
+                onChanged: (String value) {
+                  setState(() {
+                    context.read<ReportProvider>().setObservaciones(value);
+                    longCaracteres = 254 -
+                        Provider.of<ReportProvider>(context, listen: false)
+                            .observaciones
+                            .length;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(7.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
+                  hintText: "Máximo 254 caracteres",
+                  helperText: "Nombre coloquial del sitio",
+                  counterText: "${longCaracteres.toString()} caracter(es)",
                 ),
-                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Cantidad de fotos:  ',
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  Text('$longCaracteres',
+                      style: const TextStyle(
+                        fontSize: 13.0,
+                      )),
+                ],
+              ),
+            ),
+            guardando == true
+                ? _indicadorGuardando(context)
+                : const BotonSiguiente(),
+          ],
         ),
       ],
     );
   }
-
-  Future<Position> _obtenerUbicacion() async {
-    bool servicioHabilitado;
-    LocationPermission permiso;
-
-    servicioHabilitado = await Geolocator.isLocationServiceEnabled();
-    if (!servicioHabilitado) {
-      setState(() {
-        buscando = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Habilite los servicios de ubicación"),
-          ),
-        );
-      });
-      return Future.error('Los servicios están deshabilitados');
-    }
-
-    permiso = await Geolocator.checkPermission();
-    if (permiso == LocationPermission.denied) {
-      permiso = await Geolocator.requestPermission();
-      if (permiso == LocationPermission.denied) {
-        setState(() {
-          buscando = false;
-        });
-        return Future.error('Los permisos están denegados');
-      }
-    }
-
-    if (permiso == LocationPermission.deniedForever) {
-      setState(() {
-        buscando = false;
-      });
-      return Future.error(
-          'Los permisos están permanentemente denegados, no se pueden solicitar');
-    }
-
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
 }
 
-Widget verUbicacion(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text(
-        "Latitud: ",
-        style: TextStyle(
-          fontSize: 15.0,
-          fontWeight: FontWeight.bold,
-        ),
+Widget _indicadorGuardando(BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: const [
+      CircularProgressIndicator(
+        semanticsLabel: "Guardando reporte",
       ),
+      SizedBox(height: 8.0),
       Text(
-        "${context.watch<ReportProvider>().ubicacion?.latitude.toStringAsFixed(4)},   ",
-        style: const TextStyle(
-          fontSize: 15.0,
-        ),
-      ),
-      const Text(
-        "Longitud: ",
-        style: TextStyle(
-          fontSize: 15.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      Text(
-        "${context.watch<ReportProvider>().ubicacion?.longitude.toStringAsFixed(4)}",
-        style: const TextStyle(
-          fontSize: 15.0,
-        ),
-      ),
+        "Guardando reporte...",
+        style: TextStyle(fontSize: 10.0),
+        textAlign: TextAlign.center,
+      )
     ],
   );
 }
 
-Widget encabezadoUbicacion(BuildContext context) {
+Widget encabezadoObservaciones(BuildContext context) {
   return Container(
     margin: const EdgeInsets.all(8.0),
     child: Row(
@@ -278,9 +232,9 @@ Widget encabezadoUbicacion(BuildContext context) {
   );
 }
 
-Widget encabezadoUbicacionUbicacion(BuildContext context) {
+Widget encabezadoUbicacionObservaciones(BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 14.0),
+    padding: const EdgeInsets.symmetric(vertical: 2.0),
     child: Column(
       children: [
         Padding(
@@ -334,6 +288,39 @@ Widget encabezadoUbicacionUbicacion(BuildContext context) {
             ],
           ),
         ),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Latitud: ",
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "${context.watch<ReportProvider>().ubicacion?.latitude.toStringAsFixed(4)}   ",
+                  style: const TextStyle(
+                    fontSize: 13.0,
+                  ),
+                ),
+                const Text(
+                  "Longitud: ",
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "${context.watch<ReportProvider>().ubicacion?.longitude.toStringAsFixed(4)}",
+                  style: const TextStyle(
+                    fontSize: 13.0,
+                  ),
+                ),
+              ],
+            )),
       ],
     ),
   );
