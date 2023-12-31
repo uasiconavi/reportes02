@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
-import '../components/components.dart';
+//import '../components/components.dart';
 
 class UbicacionPage extends StatefulWidget {
   const UbicacionPage({Key? key}) : super(key: key);
@@ -14,23 +14,71 @@ class UbicacionPage extends StatefulWidget {
 class _UbicacionPageState extends State<UbicacionPage> {
   bool buscando = false;
 
-  void _buscar() {
-    setState(() {
-      buscando = true;
-    });
-    _mostrarUbicacion();
-  }
-
-  void _mostrarUbicacion() async {
-    Position position = await _obtenerUbicacion();
-    setState(() {
-      buscando = false;
-      /* ubicacion = position;
-      latitud = position.latitude;
-      longitud = position.longitude;
-      lat = position.latitude.toStringAsFixed(4);
-      long = position.longitude.toStringAsPrecision(6); */
-    });
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        encabezadoUbicacion(context),
+        encabezadoUbicacionUbicacion(context),
+        SizedBox(
+          height: 438.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text(
+                'Ubicación:',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              context.watch<ReportProvider>().ubicacion != null
+                  ? verUbicacion(context)
+                  : const Text("Sin datos"),
+              buscando == true
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          buscando = true;
+                        });
+                        final position = await _obtenerUbicacion();
+                        setState(() {
+                          buscando = false;
+                          context.read<ReportProvider>().setUbicacion(position);
+                        });
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Text("Coordenadas"),
+                          SizedBox(width: 5.0),
+                          Icon(Icons.gps_fixed),
+                        ],
+                      ),
+                    ),
+              context.watch<ReportProvider>().ubicacion != null
+                  ? const Text("Ya") //const BotonSiguiente()
+                  : const Text(
+                      "Debe activar los servicios de ubicación y mantenerse en un punto fijo para obtener sus coordenadas.",
+                      textAlign: TextAlign.center,
+                    ),
+              const Text(
+                'De aquí en adelante se requiere conexión a Internet',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Future<Position> _obtenerUbicacion() async {
@@ -41,13 +89,12 @@ class _UbicacionPageState extends State<UbicacionPage> {
     if (!servicioHabilitado) {
       setState(() {
         buscando = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Habilite los servicios de ubicación"),
+          ),
+        );
       });
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Habilite los servicios de ubicación"),
-        ),
-      );
       return Future.error('Los servicios están deshabilitados');
     }
 
@@ -73,67 +120,9 @@ class _UbicacionPageState extends State<UbicacionPage> {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        encabezadoUbicacion(context),
-        encabezadoUbicacionUbicacion(context),
-        SizedBox(
-          height: 438.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text(
-                'Ubicación:',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              context.watch<ReportProvider>().ubicacion != null
-                  ? verUbicacion()
-                  : const Text("Sin datos"),
-              buscando == true
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _buscar,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Text("Coordenadas"),
-                          SizedBox(width: 5.0),
-                          Icon(Icons.gps_fixed),
-                        ],
-                      ),
-                    ),
-              context.watch<ReportProvider>().ubicacion != null
-                  ? const BotonSiguiente()
-                  : const Text(
-                      "Debe activar los servicios de ubicación y mantenerse en un punto fijo para obtener sus coordenadas.",
-                      textAlign: TextAlign.center,
-                    ),
-              const Text(
-                'De aquí en adelante se requiere conexión a Internet',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }
 
-Widget verUbicacion() {
+Widget verUbicacion(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -145,7 +134,7 @@ Widget verUbicacion() {
         ),
       ),
       Text(
-        "lat,   ",
+        "${context.watch<ReportProvider>().ubicacion?.latitude.toStringAsFixed(4)},   ",
         style: const TextStyle(
           fontSize: 15.0,
         ),
@@ -158,7 +147,7 @@ Widget verUbicacion() {
         ),
       ),
       Text(
-        "long",
+        "${context.watch<ReportProvider>().ubicacion?.longitude.toStringAsFixed(4)}",
         style: const TextStyle(
           fontSize: 15.0,
         ),

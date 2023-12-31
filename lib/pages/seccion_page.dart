@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import '../components/components.dart';
 
 class SeccionPage extends StatefulWidget {
   const SeccionPage({Key? key}) : super(key: key);
@@ -74,7 +75,7 @@ class _SeccionPageState extends State<SeccionPage> {
                   ),
                 ),
               ),
-              //const BotonSiguiente(),
+              const BotonSiguiente(),
             ],
           ),
         ),
