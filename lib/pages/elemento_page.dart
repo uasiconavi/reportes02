@@ -21,7 +21,7 @@ class _ElementoPageState extends State<ElementoPage> {
     }
     return ListView(
       children: [
-        encabezadoElemento(context),
+        const Encabezado(),
         SizedBox(
           height: 570.0,
           child: Column(

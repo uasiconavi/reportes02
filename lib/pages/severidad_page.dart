@@ -21,7 +21,7 @@ class _SeveridadPageState extends State<SeveridadPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoSeveridad(context),
+        const Encabezado(),
         SizedBox(
           height: 541.0,
           child: Column(

@@ -47,97 +47,108 @@ class Encabezado extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  Row(
-                    children: [
-                      const Text('Daño: ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Text(context.watch<ReportProvider>().dano,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          )),
-                    ],
-                  ),
+                  pagina >= 3
+                      ? Row(
+                          children: [
+                            const Text('Daño: ',
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            Text(context.watch<ReportProvider>().dano,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                )),
+                          ],
+                        )
+                      : const SizedBox(),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Severidad:  ',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(context.watch<ReportProvider>().severidad,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          )),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        'Servicio:  ',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(context.watch<ReportProvider>().servicio,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          )),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        'Evento:  ',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(context.watch<ReportProvider>().evento,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          )),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        'Fecha del evento:  ',
-                        style: TextStyle(
-                          fontSize: 11.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(context.watch<ReportProvider>().fecha,
-                          style: const TextStyle(
-                            fontSize: 10.0,
-                          )),
-                    ],
-                  ),
+                  pagina >= 4
+                      ? Row(
+                          children: [
+                            const Text(
+                              'Severidad:  ',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(context.watch<ReportProvider>().severidad,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                )),
+                          ],
+                        )
+                      : const SizedBox(),
+                  pagina >= 5
+                      ? Row(
+                          children: [
+                            const Text(
+                              'Servicio:  ',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(context.watch<ReportProvider>().servicio,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                )),
+                          ],
+                        )
+                      : const SizedBox(),
+                  pagina >= 6
+                      ? Row(
+                          children: [
+                            const Text(
+                              'Evento:  ',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(context.watch<ReportProvider>().evento,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                )),
+                          ],
+                        )
+                      : const SizedBox(),
+                  pagina >= 7
+                      ? Row(
+                          children: [
+                            const Text(
+                              'Fecha del evento:  ',
+                              style: TextStyle(
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(context.watch<ReportProvider>().fecha,
+                                style: const TextStyle(
+                                  fontSize: 10.0,
+                                )),
+                          ],
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ],
           ),
         ),
-        Padding(
+        /* Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: Row(
+                child: pagina >= 3
+                      ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Zona:  ',
@@ -154,7 +165,8 @@ class Encabezado extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: Row(
+                child: pagina >= 3
+                      ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Ruta:  ',
@@ -171,7 +183,8 @@ class Encabezado extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: Row(
+                child: pagina >= 3
+                      ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Sección:  ',
@@ -186,7 +199,8 @@ class Encabezado extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
+              pagina >= 3
+                      ? Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -221,7 +235,7 @@ class Encabezado extends StatelessWidget {
                   )),
             ],
           ),
-        ),
+        ), */
       ],
     );
   }

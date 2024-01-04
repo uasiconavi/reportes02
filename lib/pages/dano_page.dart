@@ -15,7 +15,7 @@ class _DanoPageState extends State<DanoPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoDano(context),
+        const Encabezado(),
         SizedBox(
           height: 556.0,
           child: Column(
