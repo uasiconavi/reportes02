@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reportes02/pages/observaciones_page.dart';
-import 'package:reportes02/pages/seccion_page.dart';
-import 'package:reportes02/pages/ubicacion_page.dart';
 import '../pages/pages.dart';
 
 class PaginationProvider with ChangeNotifier {
@@ -25,6 +22,7 @@ class PaginationProvider with ChangeNotifier {
 
   Widget get currentPage => _pages[_currentPage];
   String get titulo => _titulo;
+  int get pagina => _currentPage;
 
   void nextPage() {
     _currentPage++;

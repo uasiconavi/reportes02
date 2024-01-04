@@ -20,8 +20,9 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoObservaciones(context),
-        encabezadoUbicacionObservaciones(context),
+        const Encabezado(),
+        /* encabezadoObservaciones(context),
+        encabezadoUbicacionObservaciones(context), */
         const SizedBox(height: 10.0),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

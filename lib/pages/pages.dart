@@ -7,3 +7,6 @@ export 'evento_page.dart';
 export 'fecha_page.dart';
 export 'zona_page.dart';
 export 'ruta_page.dart';
+export 'seccion_page.dart';
+export 'ubicacion_page.dart';
+export 'observaciones_page.dart';

@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 
-class BotonSiguiente extends StatefulWidget {
-  const BotonSiguiente({super.key});
+class BotonSiguiente extends StatelessWidget {
+  const BotonSiguiente({Key? key}) : super(key: key);
 
-  @override
-  State<BotonSiguiente> createState() => _BotonSiguienteState();
-}
-
-class _BotonSiguienteState extends State<BotonSiguiente> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
