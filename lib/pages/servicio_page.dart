@@ -21,7 +21,7 @@ class _ServicioPageState extends State<ServicioPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoServicio(context),
+        const Encabezado(),
         SizedBox(
           height: 541.0,
           child: Column(

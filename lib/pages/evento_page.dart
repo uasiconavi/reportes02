@@ -22,7 +22,7 @@ class _EventoPageState extends State<EventoPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoEvento(context),
+        const Encabezado(),
         SizedBox(
           height: 541.0,
           child: Column(

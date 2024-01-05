@@ -141,32 +141,31 @@ class Encabezado extends StatelessWidget {
             ],
           ),
         ),
-        /* Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: pagina >= 3
-                      ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        pagina >= 8
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Column(
                   children: [
-                    const Text('Zona:  ',
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(context.watch<ReportProvider>().zona,
-                        style: const TextStyle(
-                          fontSize: 13.0,
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Zona:  ',
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text(context.watch<ReportProvider>().zona,
+                              style: const TextStyle(
+                                fontSize: 13.0,
+                              )),
+                        ],
+                      ),
+                    ),
+                    /* Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: pagina >= 3
-                      ? Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Ruta:  ',
@@ -183,8 +182,7 @@ class Encabezado extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: pagina >= 3
-                      ? Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Sección:  ',
@@ -199,8 +197,7 @@ class Encabezado extends StatelessWidget {
                   ],
                 ),
               ),
-              pagina >= 3
-                      ? Padding(
+              Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -232,10 +229,11 @@ class Encabezado extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )),
-            ],
-          ),
-        ), */
+                  )), */
+                  ],
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }

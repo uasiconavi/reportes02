@@ -45,7 +45,7 @@ class _ZonaPageState extends State<ZonaPage> {
     }
     return ListView(
       children: [
-        encabezadoZona(context),
+        const Encabezado(),
         SizedBox(
           height: 527.0,
           child: Column(

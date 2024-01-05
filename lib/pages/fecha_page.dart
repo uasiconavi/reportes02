@@ -16,7 +16,7 @@ class _FechaPageState extends State<FechaPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoFecha(context),
+        const Encabezado(),
         SizedBox(
           height: 540.0,
           child: Column(
