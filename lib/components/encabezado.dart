@@ -8,6 +8,10 @@ class Encabezado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int pagina = context.watch<PaginationProvider>().pagina;
+    double alturaPadding = 14.0;
+    if (pagina == 11) {
+      alturaPadding = 2.0;
+    }
     return Column(
       children: [
         Container(
@@ -143,7 +147,7 @@ class Encabezado extends StatelessWidget {
         ),
         pagina >= 8
             ? Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                padding: EdgeInsets.symmetric(vertical: alturaPadding),
                 child: Column(
                   children: [
                     Padding(
@@ -163,73 +167,79 @@ class Encabezado extends StatelessWidget {
                         ],
                       ),
                     ),
-                    /* Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Ruta:  ',
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(context.watch<ReportProvider>().ruta,
-                        style: const TextStyle(
-                          fontSize: 13.0,
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Sección:  ',
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(context.watch<ReportProvider>().seccion,
-                        style: const TextStyle(
-                          fontSize: 13.0,
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Latitud: ",
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "${context.watch<ReportProvider>().ubicacion?.latitude.toStringAsFixed(4)}   ",
-                        style: const TextStyle(
-                          fontSize: 13.0,
-                        ),
-                      ),
-                      const Text(
-                        "Longitud: ",
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "${context.watch<ReportProvider>().ubicacion?.longitude.toStringAsFixed(4)}",
-                        style: const TextStyle(
-                          fontSize: 13.0,
-                        ),
-                      ),
-                    ],
-                  )), */
+                    pagina >= 9
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('Ruta:  ',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Text(context.watch<ReportProvider>().ruta,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                    )),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
+                    pagina >= 10
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('Sección:  ',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Text(context.watch<ReportProvider>().seccion,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                    )),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
+                    pagina >= 11
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Latitud: ",
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "${context.watch<ReportProvider>().ubicacion?.latitude.toStringAsFixed(4)}   ",
+                                  style: const TextStyle(
+                                    fontSize: 13.0,
+                                  ),
+                                ),
+                                const Text(
+                                  "Longitud: ",
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "${context.watch<ReportProvider>().ubicacion?.longitude.toStringAsFixed(4)}",
+                                  style: const TextStyle(
+                                    fontSize: 13.0,
+                                  ),
+                                ),
+                              ],
+                            ))
+                        : const SizedBox(),
                   ],
                 ),
               )

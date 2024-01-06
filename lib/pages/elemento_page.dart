@@ -213,27 +213,3 @@ class _ElementoPageState extends State<ElementoPage> {
     });
   }
 }
-
-Widget encabezadoElemento(BuildContext context) {
-  return Container(
-    margin: const EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Text('Estructura: ',
-                style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.bold,
-                )),
-            Text(context.watch<ReportProvider>().estructura,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                )),
-          ],
-        ),
-      ],
-    ),
-  );
-}

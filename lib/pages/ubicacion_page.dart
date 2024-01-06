@@ -18,8 +18,7 @@ class _UbicacionPageState extends State<UbicacionPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        encabezadoUbicacion(context),
-        encabezadoUbicacionUbicacion(context),
+        const Encabezado(),
         SizedBox(
           height: 438.0,
           child: Column(
