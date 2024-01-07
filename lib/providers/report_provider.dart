@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 class ReportProvider with ChangeNotifier {
+  List<File> _fotos = [];
   bool _primeraVezEstructura = true;
   String _estructura = "Carretera";
   bool _primeraVezElemento = true;
@@ -24,6 +26,7 @@ class ReportProvider with ChangeNotifier {
   Position? _ubicacion;
   String _observaciones = "";
 
+  List<File> get fotos => _fotos;
   bool get primeraVezEstructura => _primeraVezEstructura;
   String get estructura => _estructura;
   bool get primeraVezElemento => _primeraVezElemento;
@@ -44,6 +47,21 @@ class ReportProvider with ChangeNotifier {
   List<String> get listaSecciones => _listaSecciones;
   Position? get ubicacion => _ubicacion;
   String get observaciones => _observaciones;
+
+  void setListaFotos(List<File> newListaFotos) {
+    _fotos = newListaFotos;
+    notifyListeners();
+  }
+
+  void addFoto(File newFoto) {
+    _fotos.add(newFoto);
+    notifyListeners();
+  }
+
+  void clearFotos() {
+    _fotos.clear();
+    notifyListeners();
+  }
 
   void setPrimeraVezEstructura(bool newPrimeraVezEstructura) {
     _primeraVezEstructura = newPrimeraVezEstructura;
