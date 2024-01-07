@@ -1,5 +1,6 @@
-/* import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reportes02/components/mostrar_fotos.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
 
@@ -46,9 +47,9 @@ class _FotosPageState extends State<FotosPage> {
               ),
             ),
             cantFotos > 0
-                ? Padding(
-                    padding: const EdgeInsets.only(bottom: 75.0),
-                    child: muestraFotos(context),
+                ? const Padding(
+                    padding: EdgeInsets.only(bottom: 75.0),
+                    child: MostrarFotos(),
                   )
                 : const SizedBox(
                     height: 175.0,
@@ -81,4 +82,3 @@ class _FotosPageState extends State<FotosPage> {
     );
   }
 }
- */
