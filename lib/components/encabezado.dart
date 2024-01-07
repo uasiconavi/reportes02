@@ -8,10 +8,6 @@ class Encabezado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int pagina = context.watch<PaginationProvider>().pagina;
-    double alturaPadding = 14.0;
-    if (pagina == 11) {
-      alturaPadding = 2.0;
-    }
     return Column(
       children: [
         Container(
@@ -147,7 +143,8 @@ class Encabezado extends StatelessWidget {
         ),
         pagina >= 8
             ? Padding(
-                padding: EdgeInsets.symmetric(vertical: alturaPadding),
+                padding:
+                    EdgeInsets.symmetric(vertical: pagina != 11 ? 14.0 : 2.0),
                 child: Column(
                   children: [
                     Padding(
