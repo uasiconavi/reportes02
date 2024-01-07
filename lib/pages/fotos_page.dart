@@ -50,7 +50,7 @@ class _FotosPageState extends State<FotosPage> {
             ),
             cantFotos > 0
                 ? const Padding(
-                    padding: EdgeInsets.only(bottom: 75.0),
+                    padding: EdgeInsets.only(bottom: 50.0),
                     child: MostrarFotos(),
                   )
                 : const SizedBox(
