@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:reportes02/components/mostrar_fotos.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class FotosPage extends StatefulWidget {
   const FotosPage({super.key});
@@ -58,15 +60,31 @@ class _FotosPageState extends State<FotosPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                    onPressed: cantFotos < 10 ? _tomar : _mensajeMax,
-                    icon: const Icon(Icons.camera_alt),
-                    label: const Text('Cámara')),
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Cámara'),
+                  onPressed: cantFotos < 10 ? _tomar : _mensajeMax,
+                ),
               ],
             ),
             cantFotos > 1
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 40.0),
-                    child: BotonSiguiente(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton.icon(
+                              icon: const Icon(Icons.restart_alt),
+                              label: const Text('Reiniciar'),
+                              onPressed:
+                                  context.read<ReportProvider>().clearFotos,
+                            ),
+                            const BotonSiguiente(),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 : const Padding(
                     padding: EdgeInsets.only(top: 50.0),
@@ -79,6 +97,23 @@ class _FotosPageState extends State<FotosPage> {
           ],
         ),
       ],
+    );
+  }
+
+  Future<void> _tomar() async {
+    final foto = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (foto != null) {
+      setState(() {
+        context.read<ReportProvider>().addFoto(File(foto.path));
+      });
+    }
+  }
+
+  void _mensajeMax() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("No puede guardar más de 10 fotos"),
+      ),
     );
   }
 }

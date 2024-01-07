@@ -75,7 +75,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
                         fontSize: 13.0,
                         fontWeight: FontWeight.bold,
                       )),
-                  Text('$longCaracteres',
+                  Text('${context.watch<ReportProvider>().fotos.length}',
                       style: const TextStyle(
                         fontSize: 13.0,
                       )),

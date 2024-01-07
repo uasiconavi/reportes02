@@ -3,9 +3,10 @@ import '../pages/pages.dart';
 
 class PaginationProvider with ChangeNotifier {
   int _currentPage = 0;
-  String _titulo = "Estructura";
+  String _titulo = "Fotos";
 
   final List<Widget> _pages = [
+    const FotosPage(),
     const EstructuraPage(),
     const ElementoPage(),
     const DanoPage(),
@@ -37,39 +38,42 @@ class PaginationProvider with ChangeNotifier {
   void setTitulo() {
     switch (_currentPage) {
       case 0:
-        _titulo = "Estructura";
+        _titulo = "Fotos";
         break;
       case 1:
-        _titulo = "Elemento";
+        _titulo = "Estructura";
         break;
       case 2:
-        _titulo = "Daño";
+        _titulo = "Elemento";
         break;
       case 3:
-        _titulo = "Severidad";
+        _titulo = "Daño";
         break;
       case 4:
-        _titulo = "Servicio";
+        _titulo = "Severidad";
         break;
       case 5:
-        _titulo = "Evento";
+        _titulo = "Servicio";
         break;
       case 6:
-        _titulo = "Fecha";
+        _titulo = "Evento";
         break;
       case 7:
-        _titulo = "Zona";
+        _titulo = "Fecha";
         break;
       case 8:
-        _titulo = "Ruta";
+        _titulo = "Zona";
         break;
       case 9:
-        _titulo = "Sección";
+        _titulo = "Ruta";
         break;
       case 10:
-        _titulo = "Ubicación";
+        _titulo = "Sección";
         break;
       case 11:
+        _titulo = "Ubicación";
+        break;
+      case 12:
         _titulo = "Observaciones";
         break;
     }

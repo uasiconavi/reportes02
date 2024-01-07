@@ -32,7 +32,7 @@ class Encabezado extends StatelessWidget {
                           )),
                     ],
                   ),
-                  pagina >= 2
+                  pagina >= 3
                       ? Row(
                           children: [
                             const Text('Elemento: ',
@@ -47,7 +47,7 @@ class Encabezado extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  pagina >= 3
+                  pagina >= 4
                       ? Row(
                           children: [
                             const Text('Daño: ',
@@ -68,7 +68,7 @@ class Encabezado extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  pagina >= 4
+                  pagina >= 5
                       ? Row(
                           children: [
                             const Text(
@@ -85,7 +85,7 @@ class Encabezado extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  pagina >= 5
+                  pagina >= 6
                       ? Row(
                           children: [
                             const Text(
@@ -102,7 +102,7 @@ class Encabezado extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  pagina >= 6
+                  pagina >= 7
                       ? Row(
                           children: [
                             const Text(
@@ -119,7 +119,7 @@ class Encabezado extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  pagina >= 7
+                  pagina >= 8
                       ? Row(
                           children: [
                             const Text(
@@ -141,10 +141,10 @@ class Encabezado extends StatelessWidget {
             ],
           ),
         ),
-        pagina >= 8
+        pagina >= 9
             ? Padding(
                 padding:
-                    EdgeInsets.symmetric(vertical: pagina != 11 ? 14.0 : 2.0),
+                    EdgeInsets.symmetric(vertical: pagina != 12 ? 14.0 : 2.0),
                 child: Column(
                   children: [
                     Padding(
@@ -164,7 +164,7 @@ class Encabezado extends StatelessWidget {
                         ],
                       ),
                     ),
-                    pagina >= 9
+                    pagina >= 10
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: Row(
@@ -183,7 +183,7 @@ class Encabezado extends StatelessWidget {
                             ),
                           )
                         : const SizedBox(),
-                    pagina >= 10
+                    pagina >= 11
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: Row(
@@ -202,7 +202,7 @@ class Encabezado extends StatelessWidget {
                             ),
                           )
                         : const SizedBox(),
-                    pagina >= 11
+                    pagina >= 12
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Row(

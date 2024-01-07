@@ -1,3 +1,4 @@
+export 'fotos_page.dart';
 export 'estructura_page.dart';
 export 'elemento_page.dart';
 export 'dano_page.dart';

@@ -14,7 +14,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: context.watch<PaginationProvider>().titulo != "Estructura"
+        leading: context.watch<PaginationProvider>().titulo != "Fotos"
             ? backArrow(context)
             : null,
         title: Text(context.watch<PaginationProvider>().titulo),
