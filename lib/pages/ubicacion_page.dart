@@ -34,7 +34,7 @@ class _UbicacionPageState extends State<UbicacionPage> {
                 textAlign: TextAlign.center,
               ),
               context.watch<ReportProvider>().ubicacion != null
-                  ? const VerUbicacion()
+                  ? const MostrarUbicacion()
                   : const Text("Sin datos"),
               buscando == true
                   ? const CircularProgressIndicator()

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 
-class VerUbicacion extends StatelessWidget {
-  const VerUbicacion({Key? key}) : super(key: key);
+class MostrarUbicacion extends StatelessWidget {
+  const MostrarUbicacion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
