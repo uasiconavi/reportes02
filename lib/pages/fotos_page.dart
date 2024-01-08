@@ -15,49 +15,57 @@ class _FotosPageState extends State<FotosPage> {
   @override
   Widget build(BuildContext context) {
     int cantFotos = context.watch<ReportProvider>().fotos.length;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return ListView(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Cantidad de fotos: ',
-              style: TextStyle(
-                fontSize: 17.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
+        SizedBox(
+          height: 500.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Cantidad de fotos: ',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    '$cantFotos',
+                    style: const TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              '$cantFotos',
-              style: const TextStyle(
-                fontSize: 17.0,
-                fontWeight: FontWeight.normal,
-                color: Colors.black87,
+              cantFotos > 0 ? const MostrarFotos() : const SizedBox(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.camera_alt),
+                    label: const Text('Cámara'),
+                    onPressed: cantFotos < 10
+                        ? () async {
+                            tomarFoto().then((foto) {
+                              if (foto != null) {
+                                context.read<ReportProvider>().addFoto(foto);
+                              }
+                            });
+                          }
+                        : _mensajeMax,
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-        cantFotos > 0 ? const MostrarFotos() : const SizedBox(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton.icon(
-              icon: const Icon(Icons.camera_alt),
-              label: const Text('Cámara'),
-              onPressed: cantFotos < 10
-                  ? () async {
-                      tomarFoto().then((foto) {
-                        if (foto != null) {
-                          context.read<ReportProvider>().addFoto(foto);
-                        }
-                      });
-                    }
-                  : _mensajeMax,
-            ),
-          ],
+            ],
+          ),
         ),
         cantFotos > 1
             ? Row(
