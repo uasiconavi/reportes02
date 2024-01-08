@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reportes02/components/mostrar_fotos.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import '../services/services.dart';
 
 class FotosPage extends StatefulWidget {
   const FotosPage({super.key});
@@ -62,7 +60,15 @@ class _FotosPageState extends State<FotosPage> {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Cámara'),
-                  onPressed: cantFotos < 10 ? _tomar : _mensajeMax,
+                  onPressed: cantFotos < 10
+                      ? () async {
+                          tomarFoto().then((foto) {
+                            if (foto != null) {
+                              context.read<ReportProvider>().addFoto(foto);
+                            }
+                          });
+                        }
+                      : _mensajeMax,
                 ),
               ],
             ),
@@ -98,15 +104,6 @@ class _FotosPageState extends State<FotosPage> {
         ),
       ],
     );
-  }
-
-  Future<void> _tomar() async {
-    final foto = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (foto != null) {
-      setState(() {
-        context.read<ReportProvider>().addFoto(File(foto.path));
-      });
-    }
   }
 
   void _mensajeMax() {
