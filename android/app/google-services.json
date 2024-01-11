@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532050304034",
+    "project_id": "danos-conavi",
+    "storage_bucket": "danos-conavi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532050304034:android:8f7756d3ef277405883e7b",
+        "android_client_info": {
+          "package_name": "com.arret.reportes02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIar4WjZYtETSzans0Bk-k8zcb8-zd1QM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
