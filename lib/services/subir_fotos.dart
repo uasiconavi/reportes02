@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-Future<void> subirImagenes(
+Future<void> subirFotos(
     int cantFotos, List<String> nombresImagen, List<File> fotos) async {
   /* await FirebaseFirestore.instance
         .collection("bloqueos")
