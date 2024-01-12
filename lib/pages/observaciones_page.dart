@@ -15,7 +15,6 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
       TextEditingController(text: "");
   int longCaracteres = 254;
   bool guardando = false;
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -83,28 +82,29 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
               ),
             ),
             guardando == true
-                ? _indicadorGuardando(context)
-                : const BotonSiguiente(),
+                ? const IndicadorGuardando()
+                : _botonGuardar(context),
           ],
         ),
       ],
     );
   }
-}
 
-Widget _indicadorGuardando(BuildContext context) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: const [
-      CircularProgressIndicator(
-        semanticsLabel: "Guardando reporte",
+  Widget _botonGuardar(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          guardando = true;
+        });
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(Icons.cloud_upload_outlined),
+          SizedBox(width: 5.0),
+          Text("Guardar"),
+        ],
       ),
-      SizedBox(height: 8.0),
-      Text(
-        "Guardando reporte...",
-        style: TextStyle(fontSize: 10.0),
-        textAlign: TextAlign.center,
-      )
-    ],
-  );
+    );
+  }
 }
