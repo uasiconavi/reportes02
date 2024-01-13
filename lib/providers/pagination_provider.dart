@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../pages/pages.dart';
 
 class PaginationProvider with ChangeNotifier {
-  int _currentPage = 12; //cambiar a 0
-  String _titulo = "Observaciones"; //cambiar a fotos
+  int _currentPage = 0; //cambiar a 0
+  String _titulo = "Fotos"; //cambiar a Fotos
 
   final List<Widget> _pages = [
     const FotosPage(),

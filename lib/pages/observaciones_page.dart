@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
+import '../services/services.dart';
 
 class ObservacionesPage extends StatefulWidget {
   const ObservacionesPage({Key? key}) : super(key: key);
@@ -96,6 +97,10 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
         setState(() {
           guardando = true;
         });
+        subirFotos(
+            Provider.of<ReportProvider>(context, listen: false).fotos.length,
+            Provider.of<ReportProvider>(context, listen: false).fecha,
+            Provider.of<ReportProvider>(context, listen: false).fotos);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

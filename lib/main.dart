@@ -3,15 +3,19 @@ import 'package:provider/provider.dart';
 import 'providers/providers.dart';
 import 'screens/screens.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => ReportProvider()),
-      ChangeNotifierProvider(create: (_) => PaginationProvider()),
-    ],
-    child: const MyApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then((value) {
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ReportProvider()),
+        ChangeNotifierProvider(create: (_) => PaginationProvider()),
+      ],
+      child: const MyApp(),
+    ));
+  });
 }
 
 class MyApp extends StatelessWidget {

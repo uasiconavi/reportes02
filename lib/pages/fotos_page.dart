@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
 import '../services/services.dart';
+import 'package:path/path.dart' as path;
 
 class FotosPage extends StatefulWidget {
   const FotosPage({super.key});
@@ -57,6 +58,8 @@ class _FotosPageState extends State<FotosPage> {
                             tomarFoto().then((foto) {
                               if (foto != null) {
                                 context.read<ReportProvider>().addFoto(foto);
+                                context.read<ReportProvider>().addNombreFoto(
+                                    path.basename(foto.toString()));
                               }
                             });
                           }
@@ -72,10 +75,12 @@ class _FotosPageState extends State<FotosPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton.icon(
-                    icon: const Icon(Icons.restart_alt),
-                    label: const Text('Reiniciar'),
-                    onPressed: context.read<ReportProvider>().clearFotos,
-                  ),
+                      icon: const Icon(Icons.restart_alt),
+                      label: const Text('Reiniciar'),
+                      onPressed: () {
+                        context.read<ReportProvider>().clearFotos;
+                        context.read<ReportProvider>().clearNombresFotos();
+                      }),
                   const BotonSiguiente(),
                 ],
               )
