@@ -11,8 +11,6 @@ Future<void> subirFotos(int cantFotos, fecha, List<File> fotos) async {
     }); */
   for (var i = 0; i < cantFotos; i++) {
     try {
-      //String rutaFoto = '$usuario/$nombresFotos[i]';
-      //String rutaFoto = nombresFotos[i];
       int numeral = i + 1;
       await FirebaseStorage.instance
           .ref()

@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 
 class ReportProvider with ChangeNotifier {
   final List<File> _fotos = [];
-  final List<String> _nombresFotos = [];
   bool _primeraVezEstructura = true;
   String _estructura = "Carretera";
   bool _primeraVezElemento = true;
@@ -28,7 +27,6 @@ class ReportProvider with ChangeNotifier {
   String _observaciones = "";
 
   List<File> get fotos => _fotos;
-  List<String> get nombresFotos => _nombresFotos;
   bool get primeraVezEstructura => _primeraVezEstructura;
   String get estructura => _estructura;
   bool get primeraVezElemento => _primeraVezElemento;
@@ -55,18 +53,8 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addNombreFoto(String newNombreFoto) {
-    _nombresFotos.add(newNombreFoto);
-    notifyListeners();
-  }
-
   void clearFotos() {
     _fotos.clear();
-    notifyListeners();
-  }
-
-  void clearNombresFotos() {
-    _nombresFotos.clear();
     notifyListeners();
   }
 
