@@ -13,7 +13,12 @@ Future<void> subirFotos(int cantFotos, fecha, List<File> fotos) async {
     try {
       //String rutaFoto = '$usuario/$nombresFotos[i]';
       //String rutaFoto = nombresFotos[i];
-      await FirebaseStorage.instance.ref().child('$fecha-$i').putFile(
+      int numeral = i + 1;
+      await FirebaseStorage.instance
+          .ref()
+          .child(
+              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_$numeral')
+          .putFile(
             fotos[i],
             /* SettableMetadata(customMetadata: {
             'autor': usuario,
