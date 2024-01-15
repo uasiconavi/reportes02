@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ReportProvider with ChangeNotifier {
+  String _usuario = FirebaseAuth.instance.currentUser!.email!;
   final List<File> _fotos = [];
   bool _primeraVezEstructura = true;
   String _estructura = "Carretera";
@@ -26,6 +28,7 @@ class ReportProvider with ChangeNotifier {
   Position? _ubicacion;
   String _observaciones = "";
 
+  String get usuario => _usuario;
   List<File> get fotos => _fotos;
   bool get primeraVezEstructura => _primeraVezEstructura;
   String get estructura => _estructura;
@@ -47,6 +50,11 @@ class ReportProvider with ChangeNotifier {
   List<String> get listaSecciones => _listaSecciones;
   Position? get ubicacion => _ubicacion;
   String get observaciones => _observaciones;
+
+  void addUsuario(String newUsuario) {
+    _usuario = newUsuario;
+    notifyListeners();
+  }
 
   void addFoto(File newFoto) {
     _fotos.add(newFoto);

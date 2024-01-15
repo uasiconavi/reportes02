@@ -21,6 +21,7 @@ class _InicioState extends State<Inicio> {
               } else if (snapshot.hasError) {
                 return const Center(child: Text("Error"));
               } else if (snapshot.hasData) {
+                //return const SesionScreen();
                 return const SelectionScreen();
               } else {
                 return const SesionScreen();

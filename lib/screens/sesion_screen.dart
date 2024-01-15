@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../providers/providers.dart';
 
 class SesionScreen extends StatefulWidget {
   const SesionScreen({super.key});
@@ -10,6 +13,15 @@ class SesionScreen extends StatefulWidget {
 class _SesionScreenState extends State<SesionScreen> {
   final usuarioController = TextEditingController();
   final contrasenaController = TextEditingController();
+
+  @override
+  void dispose() {
+    usuarioController.dispose();
+    contrasenaController.dispose();
+
+    super.dispose();
+  }
+
   bool _isObscure = true;
 
   @override
@@ -80,8 +92,8 @@ class _SesionScreenState extends State<SesionScreen> {
               ),
               const SizedBox(height: 20.0),
               ElevatedButton.icon(
-                //onPressed: signIn,
-                onPressed: () {},
+                //onPressed: FirebaseAuth.instance.signOut,
+                onPressed: signIn,
                 icon: const Icon(Icons.lock_open),
                 label: const Text('Inicio'),
               ),
@@ -106,6 +118,33 @@ class _SesionScreenState extends State<SesionScreen> {
         ],
       ),
     );
+  }
+
+  Future signIn() async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: usuarioController.text.trim(),
+              password: contrasenaController.text.trim())
+          .then((value) {
+        context
+            .read<ReportProvider>()
+            .addUsuario(FirebaseAuth.instance.currentUser!.email!);
+      });
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Credenciales inválidas"),
+        ),
+      );
+      // ignore: avoid_print
+      print(e);
+    }
+    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
 
