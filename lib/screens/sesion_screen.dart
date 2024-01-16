@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import 'package:reportes02/main.dart';
+import 'package:restart_app/restart_app.dart';
 
 class SesionScreen extends StatefulWidget {
   const SesionScreen({super.key});
@@ -92,7 +94,6 @@ class _SesionScreenState extends State<SesionScreen> {
               ),
               const SizedBox(height: 20.0),
               ElevatedButton.icon(
-                //onPressed: FirebaseAuth.instance.signOut,
                 onPressed: signIn,
                 icon: const Icon(Icons.lock_open),
                 label: const Text('Inicio'),
@@ -134,7 +135,7 @@ class _SesionScreenState extends State<SesionScreen> {
         context
             .read<ReportProvider>()
             .addUsuario(FirebaseAuth.instance.currentUser!.email!);
-      });
+      }).then((value) => Restart.restartApp);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -144,7 +145,7 @@ class _SesionScreenState extends State<SesionScreen> {
       // ignore: avoid_print
       print(e);
     }
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
 

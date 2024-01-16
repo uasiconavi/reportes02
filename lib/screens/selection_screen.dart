@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import '../services/services.dart';
 
 class SelectionScreen extends StatefulWidget {
   const SelectionScreen({super.key});
@@ -18,6 +19,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
             ? backArrow(context)
             : null,
         title: Text(context.watch<PaginationProvider>().titulo),
+        actions: const <Widget>[MenuCierreSesion()],
       ),
       body: context.watch<PaginationProvider>().currentPage,
     );

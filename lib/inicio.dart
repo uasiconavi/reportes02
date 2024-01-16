@@ -11,23 +11,20 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return indicadorIniciando(context);
-              } else if (snapshot.hasError) {
-                return const Center(child: Text("Error"));
-              } else if (snapshot.hasData) {
-                //return const SesionScreen();
-                return const SelectionScreen();
-              } else {
-                return const SesionScreen();
-              }
-            }));
-  }
+  Widget build(BuildContext context) => Scaffold(
+      body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return indicadorIniciando(context);
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Error"));
+            } else if (snapshot.hasData) {
+              return const SelectionScreen();
+            } else {
+              return const SesionScreen();
+            }
+          }));
 }
 
 Widget indicadorIniciando(BuildContext context) {

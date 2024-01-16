@@ -45,6 +45,8 @@ dependencies:
     sdk: flutter
   geolocator: ^10.1.0
   firebase_storage:
+  restart_app:
+
 
 dev_dependencies:
   flutter_test:
