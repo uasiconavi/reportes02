@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import '../services/services.dart';
 import 'package:reportes02/main.dart';
-import 'package:restart_app/restart_app.dart';
 
 class SesionScreen extends StatefulWidget {
   const SesionScreen({super.key});
@@ -135,7 +135,7 @@ class _SesionScreenState extends State<SesionScreen> {
         context
             .read<ReportProvider>()
             .addUsuario(FirebaseAuth.instance.currentUser!.email!);
-      }).then((value) => Restart.restartApp);
+      }).then((value) => limpiarVariables(context));
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

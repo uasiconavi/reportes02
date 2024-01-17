@@ -35,6 +35,12 @@ class PaginationProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void iniciarPage() {
+    _currentPage = 0;
+    _titulo = "Fotos";
+    notifyListeners();
+  }
+
   void setTitulo() {
     switch (_currentPage) {
       case 0:
