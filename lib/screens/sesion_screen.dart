@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-import '../providers/providers.dart';
 import '../services/services.dart';
 import 'package:reportes02/main.dart';
 
@@ -123,7 +121,7 @@ class _SesionScreenState extends State<SesionScreen> {
 
   Future signIn() async {
     showDialog(
-      context: context,
+      context: navigatorKey.currentContext!, //evita error de unmounted
       builder: (context) => const Center(child: CircularProgressIndicator()),
     );
     try {
@@ -131,19 +129,13 @@ class _SesionScreenState extends State<SesionScreen> {
           .signInWithEmailAndPassword(
               email: usuarioController.text.trim(),
               password: contrasenaController.text.trim())
-          .then((value) {
-        context
-            .read<ReportProvider>()
-            .addUsuario(FirebaseAuth.instance.currentUser!.email!);
-      }).then((value) => limpiarVariables(context));
-    } on FirebaseAuthException catch (e) {
+          .then((value) => limpiarVariables(context));
+    } on FirebaseAuthException {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Credenciales inválidas"),
         ),
       );
-      // ignore: avoid_print
-      print(e);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
