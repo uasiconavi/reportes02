@@ -98,8 +98,8 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
           guardando = true;
         });
         subirFotos(
+            Provider.of<ReportProvider>(context, listen: false).usuario,
             Provider.of<ReportProvider>(context, listen: false).fotos.length,
-            Provider.of<ReportProvider>(context, listen: false).fecha,
             Provider.of<ReportProvider>(context, listen: false).fotos);
       },
       child: Row(
