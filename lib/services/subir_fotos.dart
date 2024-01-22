@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+int cantReportesHoy = 1;
+
 Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
   /* await FirebaseFirestore.instance
         .collection("bloqueos")
@@ -10,7 +12,6 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         .update({
       "locked": true,
     }); */
-  int cantReportesHoy = 1;
   DocumentReference documento = FirebaseFirestore.instance
       .collection('contadorReportesUsuario')
       .doc(usuario);
@@ -20,15 +21,20 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
           documentSnapshot.data() as Map<String, dynamic>;
       if (data.containsKey('fechaUltimoReporte') &&
           data.containsKey('cantReportesHoy')) {
+        cantReportesHoy = data['cantReportesHoy'];
         if (data['fechaUltimoReporte'] ==
             '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}') {
           print("El último reporte fue hoy");
-          documento.update({'cantReportesHoy': data['cantReportesHoy'] + 1});
+          cantReportesHoy++;
         } else {
           print("El último reporte no fue hoy");
-          documento.update({'cantReportesHoy': 1});
+          cantReportesHoy = 1;
         }
-        cantReportesHoy = data['cantReportesHoy'];
+        documento.update({
+          'cantReportesHoy': cantReportesHoy,
+          'fechaUltimoReporte':
+              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}'
+        });
       }
     } else {
       print("El documento no existe, así que lo estoy creando");
@@ -39,22 +45,25 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
             '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
         'cantReportesHoy': 1,
       });
+      cantReportesHoy = 1;
+    }
+  }).then((value) async {
+    for (var i = 1; i <= cantFotos; i++) {
+      try {
+        await FirebaseStorage.instance
+            .ref()
+            .child(
+                '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg')
+            .putFile(
+                fotos[i - 1],
+                SettableMetadata(customMetadata: {
+                  'author': usuario,
+                }));
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     }
   });
-  for (var i = 1; i <= cantFotos; i++) {
-    try {
-      await FirebaseStorage.instance
-          .ref()
-          .child(
-              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario}_rep-${cantReportesHoy}_$i')
-          .putFile(
-              fotos[i - 1],
-              SettableMetadata(customMetadata: {
-                'autor': usuario,
-              }));
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+
   //getListaUrl();
 }

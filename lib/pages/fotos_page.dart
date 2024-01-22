@@ -75,7 +75,9 @@ class _FotosPageState extends State<FotosPage> {
                       icon: const Icon(Icons.restart_alt),
                       label: const Text('Reiniciar'),
                       onPressed: () {
-                        context.read<ReportProvider>().clearFotos;
+                        setState(() {
+                          context.read<ReportProvider>().clearFotos;
+                        });
                       }),
                   const BotonSiguiente(),
                 ],
