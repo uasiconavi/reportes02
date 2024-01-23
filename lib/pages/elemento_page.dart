@@ -81,6 +81,9 @@ class _ElementoPageState extends State<ElementoPage> {
                       context
                           .read<ReportProvider>()
                           .setPrimeraVezEstructura(false);
+                      context.read<ReportProvider>().setSeveridad("Baja");
+                      context.read<ReportProvider>().setServicio("Habilitado");
+                      context.read<ReportProvider>().setEvento("Lluvia");
                     },
                   ),
                 ),
@@ -207,9 +210,6 @@ class _ElementoPageState extends State<ElementoPage> {
         }
       }
       context.read<ReportProvider>().setListaDanos(listaDanos);
-      context.read<ReportProvider>().setSeveridad("Baja");
-      context.read<ReportProvider>().setServicio("Habilitado");
-      context.read<ReportProvider>().setEvento("Lluvia");
     });
   }
 }
