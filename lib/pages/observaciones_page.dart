@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../components/components.dart';
-import '../services/services.dart';
 
 class ObservacionesPage extends StatefulWidget {
   const ObservacionesPage({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   TextEditingController observacionesController =
       TextEditingController(text: "");
   int longCaracteres = 254;
-  bool guardando = false;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -82,34 +80,12 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
                 ],
               ),
             ),
-            guardando == true
+            context.watch<ReportProvider>().guardando == true
                 ? const IndicadorGuardando()
-                : _botonGuardar(context),
+                : const BotonGuardando(),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _botonGuardar(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          guardando = true;
-        });
-        subirFotos(
-            Provider.of<ReportProvider>(context, listen: false).usuario,
-            Provider.of<ReportProvider>(context, listen: false).fotos.length,
-            Provider.of<ReportProvider>(context, listen: false).fotos);
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.cloud_upload_outlined),
-          SizedBox(width: 5.0),
-          Text("Guardar"),
-        ],
-      ),
     );
   }
 }

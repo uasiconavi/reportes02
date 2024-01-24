@@ -13,9 +13,9 @@ class ReportProvider with ChangeNotifier {
   List<String> _listaElementos = [];
   String _dano = "";
   List<String> _listaDanos = [];
-  String _severidad = "";
-  String _servicio = "";
-  String _evento = "";
+  String _severidad = "Baja";
+  String _servicio = "Habilitado";
+  String _evento = "Lluvia";
   String _fecha =
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
   bool _primeraVezZona = true;
@@ -27,6 +27,7 @@ class ReportProvider with ChangeNotifier {
   List<String> _listaSecciones = [];
   Position? _ubicacion;
   String _observaciones = "";
+  bool _guardando = false;
 
   String get usuario => _usuario;
   List<File> get fotos => _fotos;
@@ -50,6 +51,7 @@ class ReportProvider with ChangeNotifier {
   List<String> get listaSecciones => _listaSecciones;
   Position? get ubicacion => _ubicacion;
   String get observaciones => _observaciones;
+  bool get guardando => _guardando;
 
   void addUsuario(String newUsuario) {
     _usuario = newUsuario;
@@ -163,6 +165,11 @@ class ReportProvider with ChangeNotifier {
 
   void setObservaciones(String newObservaciones) {
     _observaciones = newObservaciones;
+    notifyListeners();
+  }
+
+  void setGuardando(bool newGuardando) {
+    _guardando = newGuardando;
     notifyListeners();
   }
 }

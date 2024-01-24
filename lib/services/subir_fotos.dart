@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-int cantReportesHoy = 1;
+int cantReportesHoy = 0;
 
 Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
   /* await FirebaseFirestore.instance
@@ -12,7 +12,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         .update({
       "locked": true,
     }); */
-  DocumentReference documento = FirebaseFirestore.instance
+  DocumentReference documento = FirebaseFirestore.instance //Para nombrar fotos
       .collection('contadorReportesUsuario')
       .doc(usuario);
   documento.get().then((DocumentSnapshot documentSnapshot) {
@@ -24,10 +24,10 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         cantReportesHoy = data['cantReportesHoy'];
         if (data['fechaUltimoReporte'] ==
             '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}') {
-          print("El último reporte fue hoy");
+          //Para cuando el último reporte fue hoy
           cantReportesHoy++;
         } else {
-          print("El último reporte no fue hoy");
+          //Para cuando el último reporte no fue hoy
           cantReportesHoy = 1;
         }
         documento.update({
@@ -37,7 +37,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         });
       }
     } else {
-      print("El documento no existe, así que lo estoy creando");
+      //Para cuando el documento no existe, se crea
       CollectionReference collection =
           FirebaseFirestore.instance.collection('contadorReportesUsuario');
       collection.doc(usuario).set({
@@ -53,7 +53,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         await FirebaseStorage.instance
             .ref()
             .child(
-                '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg')
+                '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg')
             .putFile(
                 fotos[i - 1],
                 SettableMetadata(customMetadata: {

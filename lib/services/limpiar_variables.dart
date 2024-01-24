@@ -7,6 +7,9 @@ void limpiarVariables(BuildContext context) {
   context.read<ReportProvider>().setPrimeraVezEstructura(true);
   context.read<ReportProvider>().setEstructura("Carretera");
   context.read<ReportProvider>().setPrimeraVezElemento(true);
+  context.read<ReportProvider>().setSeveridad("Baja");
+  context.read<ReportProvider>().setServicio("Habilitado");
+  context.read<ReportProvider>().setEvento("Lluvia");
   context.read<ReportProvider>().setFecha(
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
   context.read<ReportProvider>().setPrimeraVezZona(true);
