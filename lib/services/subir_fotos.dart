@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-int cantReportesHoy = 0;
+List<String> nombreFotos = [];
 
 Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
   /* await FirebaseFirestore.instance
@@ -12,6 +12,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         .update({
       "locked": true,
     }); */
+  int cantReportesHoy = 0;
   DocumentReference documento = FirebaseFirestore.instance //Para nombrar fotos
       .collection('contadorReportesUsuario')
       .doc(usuario);
@@ -64,6 +65,5 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
       }
     }
   });
-
   //getListaUrl();
 }
