@@ -49,17 +49,16 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
       cantReportesHoy = 1;
     }
   }).then((value) async {
+    nombreFotos.clear();
     for (var i = 1; i <= cantFotos; i++) {
       try {
-        await FirebaseStorage.instance
-            .ref()
-            .child(
-                '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg')
-            .putFile(
-                fotos[i - 1],
-                SettableMetadata(customMetadata: {
-                  'author': usuario,
-                }));
+        nombreFotos.add(
+            '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg');
+        await FirebaseStorage.instance.ref().child(nombreFotos[i - 1]).putFile(
+            fotos[i - 1],
+            SettableMetadata(customMetadata: {
+              'author': usuario,
+            }));
       } catch (e) {
         debugPrint(e.toString());
       }
