@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-List<String> nombreFotos = [];
+List<String> nombresFoto = [];
+List<String> listaUrl = [];
 
 Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
   /* await FirebaseFirestore.instance
@@ -49,12 +50,12 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
       cantReportesHoy = 1;
     }
   }).then((value) async {
-    nombreFotos.clear();
+    nombresFoto.clear();
     for (var i = 1; i <= cantFotos; i++) {
       try {
-        nombreFotos.add(
+        nombresFoto.add(
             '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg');
-        await FirebaseStorage.instance.ref().child(nombreFotos[i - 1]).putFile(
+        await FirebaseStorage.instance.ref().child(nombresFoto[i - 1]).putFile(
             fotos[i - 1],
             SettableMetadata(customMetadata: {
               'author': usuario,
@@ -63,6 +64,44 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
         debugPrint(e.toString());
       }
     }
+  }).then((value) {
+    getListaUrl(cantFotos);
   });
-  //getListaUrl();
+}
+
+Future<void> getListaUrl(int cantFotos) async {
+  bool fotoOptimizada = false;
+  while (!fotoOptimizada) {
+    try {
+      listaUrl = await getUrlFotos(cantFotos);
+      fotoOptimizada = true;
+    } catch (e) {
+      debugPrint("Imágenes no optimizadas aún, intento de nuevo en 5 segundos");
+    }
+  }
+  if (fotoOptimizada == true) {
+    for (var i = 0; i < cantFotos; i++) {
+      debugPrint(listaUrl[i]);
+    }
+    reporteFirestore();
+  }
+}
+
+Future<List<String>> getUrlFotos(int cantFotos) async {
+  List<String> urlFotos = [];
+  for (var i = 0; i < cantFotos; i++) {
+    String nombreFotoOptimizada =
+        '${nombresFoto[i].split('.jpeg').first}_900x900.jpeg';
+    debugPrint(nombreFotoOptimizada);
+    var fotoOptimizada = FirebaseStorage.instance.ref(nombreFotoOptimizada);
+    String urlFoto = await fotoOptimizada.getDownloadURL();
+    urlFotos.add(urlFoto.split('&').first);
+  }
+  return urlFotos;
+}
+
+Future<void> reporteFirestore() async {
+  FirebaseFirestore.instance.collection("reportes").add({
+    'fotos': listaUrl,
+  });
 }
