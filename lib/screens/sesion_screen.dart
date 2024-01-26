@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/services.dart';
+import '../components/components.dart';
 import 'package:reportes02/main.dart';
 
 class SesionScreen extends StatefulWidget {
@@ -30,8 +31,7 @@ class _SesionScreenState extends State<SesionScreen> {
       appBar: AppBar(title: const Text("Inicio de sesión")),
       body: ListView(
         children: [
-          logo(),
-          titulos(),
+          const LogoTitulos(),
           Column(
             children: [
               Container(
@@ -139,39 +139,4 @@ class _SesionScreenState extends State<SesionScreen> {
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
-}
-
-Widget logo() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 30.0),
-    child: Image.asset(
-      "assets/icon.png",
-      height: 110.0,
-    ),
-  );
-}
-
-Widget titulos() {
-  return Column(
-    children: const [
-      Text(
-          "Reportes de daños en la Red Vial Nacional causados por eventos naturales",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          )),
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.0),
-        child: Text("Consejo Nacional de Vialidad",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 19.0,
-              fontWeight: FontWeight.bold,
-            )),
-      ),
-    ],
-  );
 }
