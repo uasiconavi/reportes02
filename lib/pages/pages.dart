@@ -11,3 +11,5 @@ export 'ruta_page.dart';
 export 'seccion_page.dart';
 export 'ubicacion_page.dart';
 export 'observaciones_page.dart';
+export 'inicio_sesion_page.dart';
+export 'cambio_contrasena_page.dart';

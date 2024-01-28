@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../pages/pages.dart';
 
 class PaginationProvider with ChangeNotifier {
+  int _inicioSesionPage = 0;
   int _currentPage = 0;
   String _titulo = "Fotos";
 
@@ -21,9 +22,15 @@ class PaginationProvider with ChangeNotifier {
     const ObservacionesPage(),
   ];
 
+  int get inicioSesionPage => _inicioSesionPage;
   Widget get currentPage => _pages[_currentPage];
   String get titulo => _titulo;
   int get pagina => _currentPage;
+
+  void setInicioSesionPage(int newInicioSesionPage) {
+    _inicioSesionPage = newInicioSesionPage;
+    notifyListeners();
+  }
 
   void nextPage() {
     _currentPage++;

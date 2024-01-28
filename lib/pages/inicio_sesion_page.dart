@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../services/services.dart';
 import '../components/components.dart';
 import 'package:reportes02/main.dart';
+import 'package:provider/provider.dart';
+import '../providers/providers.dart';
 
 class InicioSesionPage extends StatefulWidget {
   const InicioSesionPage({super.key});
@@ -101,10 +103,7 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                 ),
               ),
               onTap: () {
-                /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PageContrasena())); */
+                context.read<PaginationProvider>().setInicioSesionPage(1);
               },
             ),
           ],
