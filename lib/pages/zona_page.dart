@@ -102,9 +102,7 @@ class _ZonaPageState extends State<ZonaPage> {
                   ),
                 ),
               ),
-              context.watch<ReportProvider>().ruta != ""
-                  ? const BotonSiguiente()
-                  : const SizedBox(),
+              const BotonSiguiente(),
             ],
           ),
         ),
