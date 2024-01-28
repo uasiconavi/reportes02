@@ -74,7 +74,9 @@ class _SeccionPageState extends State<SeccionPage> {
                   ),
                 ),
               ),
-              const BotonSiguiente(),
+              context.watch<ReportProvider>().seccion != ""
+                  ? const BotonSiguiente()
+                  : const SizedBox(),
             ],
           ),
         ),
