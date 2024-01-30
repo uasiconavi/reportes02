@@ -11,9 +11,7 @@ class BotonGuardando extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         context.read<ReportProvider>().setGuardando(true);
-        subirFotos(
-            Provider.of<ReportProvider>(context, listen: false).usuario,
-            Provider.of<ReportProvider>(context, listen: false).fotos.length,
+        subirFotos(Provider.of<ReportProvider>(context, listen: false).usuario,
             Provider.of<ReportProvider>(context, listen: false).fotos);
       },
       child: Row(

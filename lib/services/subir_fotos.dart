@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
 
-Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
+Future<void> subirFotos(String usuario, List<File> fotos) async {
   /* await FirebaseFirestore.instance
         .collection("bloqueos")
         .doc("bloqueado")
@@ -51,7 +51,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
     }
   }).then((value) async {
     nombresFoto.clear();
-    for (var i = 1; i <= cantFotos; i++) {
+    for (var i = 1; i <= fotos.length; i++) {
       try {
         nombresFoto.add(
             '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg');
@@ -65,7 +65,7 @@ Future<void> subirFotos(String usuario, int cantFotos, List<File> fotos) async {
       }
     }
   }).then((value) {
-    getListaUrl(cantFotos);
+    getListaUrl(fotos.length);
   });
 }
 
