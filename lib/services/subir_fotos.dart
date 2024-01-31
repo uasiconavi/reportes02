@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
+String id = "";
 
 Future<void> subirFotos(String usuario, List<File> fotos) async {
   /* await FirebaseFirestore.instance
@@ -50,11 +51,12 @@ Future<void> subirFotos(String usuario, List<File> fotos) async {
       cantReportesHoy = 1;
     }
   }).then((value) async {
+    id =
+        '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-$cantReportesHoy';
     nombresFoto.clear();
     for (var i = 1; i <= fotos.length; i++) {
       try {
-        nombresFoto.add(
-            '$usuario/${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-${cantReportesHoy}_$i.jpeg');
+        nombresFoto.add('$usuario/${id}_rep-${cantReportesHoy}_$i.jpeg');
         await FirebaseStorage.instance.ref().child(nombresFoto[i - 1]).putFile(
             fotos[i - 1],
             SettableMetadata(customMetadata: {
