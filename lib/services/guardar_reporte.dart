@@ -1,19 +1,14 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
 String id = "";
+bool fotosOptimizadas = false;
 
-Future<void> subirFotos(String usuario, List<File> fotos) async {
-  /* await FirebaseFirestore.instance
-        .collection("bloqueos")
-        .doc("bloqueado")
-        .update({
-      "locked": true,
-    }); */
+Future<void> guardarReporte(
+    String usuario, List<File> fotos, String estructura) async {
   int cantReportesHoy = 0;
   DocumentReference documento = FirebaseFirestore.instance //Para nombrar fotos
       .collection('contadorReportesUsuario')
@@ -56,36 +51,30 @@ Future<void> subirFotos(String usuario, List<File> fotos) async {
     nombresFoto.clear();
     for (var i = 1; i <= fotos.length; i++) {
       try {
-        nombresFoto.add('$usuario/${id}_rep-${cantReportesHoy}_$i.jpeg');
+        nombresFoto.add('$usuario/${id}_$i.jpeg');
         await FirebaseStorage.instance.ref().child(nombresFoto[i - 1]).putFile(
             fotos[i - 1],
             SettableMetadata(customMetadata: {
-              'author': usuario,
+              'autor': usuario,
             }));
-      } catch (e) {
-        debugPrint(e.toString());
-      }
+        // ignore: empty_catches
+      } catch (e) {}
     }
   }).then((value) {
-    getListaUrl(fotos.length);
+    getListaUrl(fotos.length, estructura);
   });
 }
 
-Future<void> getListaUrl(int cantFotos) async {
-  bool fotoOptimizada = false;
-  while (!fotoOptimizada) {
+Future<void> getListaUrl(int cantFotos, String estructura) async {
+  while (!fotosOptimizadas) {
     try {
       listaUrl = await getUrlFotos(cantFotos);
-      fotoOptimizada = true;
-    } catch (e) {
-      debugPrint("Imágenes no optimizadas aún, intento de nuevo en 5 segundos");
-    }
+      fotosOptimizadas = true;
+      // ignore: empty_catches
+    } catch (e) {}
   }
-  if (fotoOptimizada == true) {
-    for (var i = 0; i < cantFotos; i++) {
-      debugPrint(listaUrl[i]);
-    }
-    reporteFirestore();
+  if (fotosOptimizadas == true) {
+    reporteFirestore(id, listaUrl, estructura);
   }
 }
 
@@ -94,7 +83,6 @@ Future<List<String>> getUrlFotos(int cantFotos) async {
   for (var i = 0; i < cantFotos; i++) {
     String nombreFotoOptimizada =
         '${nombresFoto[i].split('.jpeg').first}_900x900.jpeg';
-    debugPrint(nombreFotoOptimizada);
     var fotoOptimizada = FirebaseStorage.instance.ref(nombreFotoOptimizada);
     String urlFoto = await fotoOptimizada.getDownloadURL();
     urlFotos.add(urlFoto.split('&').first);
@@ -102,8 +90,12 @@ Future<List<String>> getUrlFotos(int cantFotos) async {
   return urlFotos;
 }
 
-Future<void> reporteFirestore() async {
-  FirebaseFirestore.instance.collection("reportes").add({
+Future<void> reporteFirestore(
+    String id, List<String> listaUrl, String estructura) async {
+  FirebaseFirestore.instance.collection("reportes").doc(id).set({
+    'fecha_reporte':
+        '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
     'fotos': listaUrl,
+    'estructura': estructura,
   });
 }
