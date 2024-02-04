@@ -15,6 +15,17 @@ class BotonGuardando extends StatelessWidget {
           Provider.of<ReportProvider>(context, listen: false).usuario,
           Provider.of<ReportProvider>(context, listen: false).fotos,
           Provider.of<ReportProvider>(context, listen: false).estructura,
+          Provider.of<ReportProvider>(context, listen: false).elemento,
+          Provider.of<ReportProvider>(context, listen: false).dano,
+          Provider.of<ReportProvider>(context, listen: false).severidad,
+          Provider.of<ReportProvider>(context, listen: false).servicio,
+          Provider.of<ReportProvider>(context, listen: false).evento,
+          Provider.of<ReportProvider>(context, listen: false).fecha,
+          Provider.of<ReportProvider>(context, listen: false).zona,
+          Provider.of<ReportProvider>(context, listen: false).ruta,
+          Provider.of<ReportProvider>(context, listen: false).seccion,
+          Provider.of<ReportProvider>(context, listen: false).ubicacion,
+          Provider.of<ReportProvider>(context, listen: false).observaciones,
         );
       },
       child: Row(

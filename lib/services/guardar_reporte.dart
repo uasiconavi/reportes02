@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
@@ -8,7 +9,21 @@ String id = "";
 bool fotosOptimizadas = false;
 
 Future<void> guardarReporte(
-    String usuario, List<File> fotos, String estructura) async {
+  String usuario,
+  List<File> fotos,
+  String estructura,
+  String elemento,
+  String dano,
+  String severidad,
+  String servicio,
+  String evento,
+  String fecha,
+  String zona,
+  String ruta,
+  String seccion,
+  Position? ubicacion,
+  String observaciones,
+) async {
   int cantReportesHoy = 0;
   DocumentReference documento = FirebaseFirestore.instance //Para nombrar fotos
       .collection('contadorReportesUsuario')
@@ -60,22 +75,33 @@ Future<void> guardarReporte(
         // ignore: empty_catches
       } catch (e) {}
     }
-  }).then((value) {
-    getListaUrl(fotos.length, estructura);
+  }).then((value) async {
+    while (!fotosOptimizadas) {
+      try {
+        listaUrl = await getUrlFotos(fotos.length);
+        fotosOptimizadas = true;
+        // ignore: empty_catches
+      } catch (e) {}
+    }
+    if (fotosOptimizadas == true) {
+      reporteFirestore(
+        id,
+        listaUrl,
+        estructura,
+        elemento,
+        dano,
+        severidad,
+        servicio,
+        evento,
+        fecha,
+        zona,
+        ruta,
+        seccion,
+        ubicacion,
+        observaciones,
+      );
+    }
   });
-}
-
-Future<void> getListaUrl(int cantFotos, String estructura) async {
-  while (!fotosOptimizadas) {
-    try {
-      listaUrl = await getUrlFotos(cantFotos);
-      fotosOptimizadas = true;
-      // ignore: empty_catches
-    } catch (e) {}
-  }
-  if (fotosOptimizadas == true) {
-    reporteFirestore(id, listaUrl, estructura);
-  }
 }
 
 Future<List<String>> getUrlFotos(int cantFotos) async {
@@ -91,11 +117,35 @@ Future<List<String>> getUrlFotos(int cantFotos) async {
 }
 
 Future<void> reporteFirestore(
-    String id, List<String> listaUrl, String estructura) async {
+  String id,
+  List<String> listaUrl,
+  String estructura,
+  String elemento,
+  String dano,
+  String severidad,
+  String servicio,
+  String evento,
+  String fecha,
+  String zona,
+  String ruta,
+  String seccion,
+  Position? ubicacion,
+  String observaciones,
+) async {
   FirebaseFirestore.instance.collection("reportes").doc(id).set({
-    'fecha_reporte':
-        '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+    'fecha_reporte': DateTime.now(),
     'fotos': listaUrl,
     'estructura': estructura,
+    'elemento': elemento,
+    'dano': dano,
+    'severidad': severidad,
+    'servicio': servicio,
+    'evento': evento,
+    'fecha_evento': fecha,
+    'zona': zona,
+    'ruta': ruta,
+    'seccion': seccion,
+    'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
+    'observaciones': observaciones,
   });
 }
