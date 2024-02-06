@@ -6,3 +6,4 @@ export 'indicador_guardando.dart';
 export 'menu_cierre_sesion.dart';
 export 'boton_guardando.dart';
 export 'logo_titulos.dart';
+export 'mensaje_cerrar_app.dart';

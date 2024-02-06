@@ -81,9 +81,7 @@ class _RutaPageState extends State<RutaPage> {
                   ),
                 ),
               ),
-              context.watch<ReportProvider>().seccion != ""
-                  ? const BotonSiguiente()
-                  : const SizedBox(),
+              const BotonSiguiente(),
             ],
           ),
         ),

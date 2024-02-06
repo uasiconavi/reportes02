@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
+import '../components/components.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
@@ -147,5 +148,7 @@ Future<void> reporteFirestore(
     'seccion': seccion,
     'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
     'observaciones': observaciones,
+  }).then((value) {
+    MensajeCerrarApp;
   });
 }
