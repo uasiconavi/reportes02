@@ -82,7 +82,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
             ),
             context.watch<ReportProvider>().guardando == true
                 ? const IndicadorGuardando()
-                : const BotonGuardando(),
+                : const BotonGuardar(),
           ],
         ),
       ],

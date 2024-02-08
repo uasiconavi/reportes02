@@ -4,26 +4,35 @@ import '../providers/providers.dart';
 import '../services/services.dart';
 import 'package:flutter/services.dart';
 
-class MensajeCerrarApp extends StatefulWidget {
-  const MensajeCerrarApp({Key? key}) : super(key: key);
+class BotonGuardar extends StatelessWidget {
+  const BotonGuardar({Key? key}) : super(key: key);
 
-  @override
-  State<MensajeCerrarApp> createState() => _MensajeCerrarAppState();
-}
-
-class _MensajeCerrarAppState extends State<MensajeCerrarApp> {
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      context.read<ReportProvider>().setGuardando(false);
-    });
-    return Container(
-      child: _preguntar(context),
+    return ElevatedButton(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(Icons.cloud_upload_outlined),
+          SizedBox(width: 5.0),
+          Text("Guardar"),
+        ],
+      ),
+      onPressed: () {
+        context.read<ReportProvider>().setGuardando(true);
+        subirFotos(
+          Provider.of<ReportProvider>(context, listen: false).usuario,
+          Provider.of<ReportProvider>(context, listen: false).fotos,
+        );
+        reporteListo.then((value) {
+          _mensajeCierreApp(context);
+        });
+      },
     );
-    //return _preguntar(context);
   }
 
-  _preguntar(BuildContext context) {
+  _mensajeCierreApp(BuildContext context) {
+    context.read<ReportProvider>().setGuardando(false);
     showDialog(
       barrierDismissible: false,
       barrierColor: Colors.black54,

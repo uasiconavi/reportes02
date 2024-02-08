@@ -14,6 +14,14 @@ class _BotonSiguienteState extends State<BotonSiguiente> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Text("Siguiente"),
+          SizedBox(width: 5.0),
+          Icon(Icons.arrow_forward),
+        ],
+      ),
       onPressed: () {
         if (_buttonEnabled) {
           context.read<PaginationProvider>().nextPage();
@@ -23,14 +31,6 @@ class _BotonSiguienteState extends State<BotonSiguiente> {
           });
         }
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text("Siguiente"),
-          SizedBox(width: 5.0),
-          Icon(Icons.arrow_forward),
-        ],
-      ),
     );
   }
 }

@@ -1,29 +1,19 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:geolocator/geolocator.dart';
-import '../components/components.dart';
+//import 'package:geolocator/geolocator.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
 String id = "";
 bool fotosOptimizadas = false;
+Completer<bool> completer = Completer<bool>();
+Future<bool> reporteListo = completer.future;
 
-Future<void> guardarReporte(
+Future<void> subirFotos(
   String usuario,
   List<File> fotos,
-  String estructura,
-  String elemento,
-  String dano,
-  String severidad,
-  String servicio,
-  String evento,
-  String fecha,
-  String zona,
-  String ruta,
-  String seccion,
-  Position? ubicacion,
-  String observaciones,
 ) async {
   int cantReportesHoy = 0;
   DocumentReference documento = FirebaseFirestore.instance //Para nombrar fotos
@@ -84,23 +74,8 @@ Future<void> guardarReporte(
         // ignore: empty_catches
       } catch (e) {}
     }
-    if (fotosOptimizadas == true) {
-      reporteFirestore(
-        id,
-        listaUrl,
-        estructura,
-        elemento,
-        dano,
-        severidad,
-        servicio,
-        evento,
-        fecha,
-        zona,
-        ruta,
-        seccion,
-        ubicacion,
-        observaciones,
-      );
+    if (fotosOptimizadas) {
+      reporteFirestore();
     }
   });
 }
@@ -117,26 +92,11 @@ Future<List<String>> getUrlFotos(int cantFotos) async {
   return urlFotos;
 }
 
-Future<void> reporteFirestore(
-  String id,
-  List<String> listaUrl,
-  String estructura,
-  String elemento,
-  String dano,
-  String severidad,
-  String servicio,
-  String evento,
-  String fecha,
-  String zona,
-  String ruta,
-  String seccion,
-  Position? ubicacion,
-  String observaciones,
-) async {
+Future<void> reporteFirestore() async {
   FirebaseFirestore.instance.collection("reportes").doc(id).set({
     'fecha_reporte': DateTime.now(),
     'fotos': listaUrl,
-    'estructura': estructura,
+    /*  'estructura': estructura,
     'elemento': elemento,
     'dano': dano,
     'severidad': severidad,
@@ -147,8 +107,16 @@ Future<void> reporteFirestore(
     'ruta': ruta,
     'seccion': seccion,
     'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
-    'observaciones': observaciones,
+    'observaciones': observaciones, */
   }).then((value) {
-    MensajeCerrarApp;
+    completer.complete(true);
   });
+}
+
+Future<bool> revisarReporteListo() async {
+  if (!fotosOptimizadas) {
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+  }
 }
