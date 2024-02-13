@@ -77,8 +77,7 @@ class _FotosPageState extends State<FotosPage> {
                       onPressed: () {
                         limpiarVariables(context);
                       }),
-                  //const BotonSiguiente(),
-                  const BotonGuardar(),
+                  const BotonSiguiente(),
                 ],
               )
             : const Text(

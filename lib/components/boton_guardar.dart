@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../services/services.dart';
 import 'package:flutter/services.dart';
+//import 'package:geolocator/geolocator.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
@@ -44,7 +45,8 @@ class _BotonGuardarState extends State<BotonGuardar> {
         Provider.of<ReportProvider>(context, listen: false).usuario;
     List<File> fotos =
         Provider.of<ReportProvider>(context, listen: false).fotos;
-
+    String estructura =
+        Provider.of<ReportProvider>(context, listen: false).estructura;
     DocumentReference documento =
         FirebaseFirestore.instance //Para nombrar fotos
             .collection('contadorReportesUsuario')
@@ -108,7 +110,7 @@ class _BotonGuardarState extends State<BotonGuardar> {
         } catch (e) {}
       }
       if (fotosOptimizadas) {
-        reporteFirestore();
+        reporteFirestore(estructura);
       }
     });
   }
@@ -125,29 +127,29 @@ class _BotonGuardarState extends State<BotonGuardar> {
     return urlFotos;
   }
 
-  Future<void> reporteFirestore() async {
+  Future<void> reporteFirestore(String estructura) async {
     FirebaseFirestore.instance.collection("reportes").doc(id).set({
       'fecha_reporte': DateTime.now(),
       'fotos': listaUrl,
-      /*  'estructura': estructura,
-    'elemento': elemento,
-    'dano': dano,
-    'severidad': severidad,
-    'servicio': servicio,
-    'evento': evento,
-    'fecha_evento': fecha,
-    'zona': zona,
-    'ruta': ruta,
-    'seccion': seccion,
-    'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
-    'observaciones': observaciones, */
+      'estructura': estructura,
+      /* 'elemento': elemento,
+      'dano': dano,
+      'severidad': severidad,
+      'servicio': servicio,
+      'evento': evento,
+      'fecha_evento': fecha,
+      'zona': zona,
+      'ruta': ruta,
+      'seccion': seccion,
+      'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
+      'observaciones': observaciones, */
     }).then((value) {
-      _mensajeCierreApp(context);
+      context.read<ReportProvider>().setGuardando(false);
+      //_mensajeCierreApp(context);
     });
   }
 
   _mensajeCierreApp(BuildContext context) {
-    context.read<ReportProvider>().setGuardando(false);
     showDialog(
       barrierDismissible: false,
       barrierColor: Colors.black54,
