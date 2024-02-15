@@ -4,9 +4,6 @@ import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../services/services.dart';
-import 'package:flutter/services.dart';
-//import 'package:geolocator/geolocator.dart';
 
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
@@ -109,6 +106,7 @@ class _BotonGuardarState extends State<BotonGuardar> {
           // ignore: empty_catches
         } catch (e) {}
       }
+    }).then((value) {
       if (fotosOptimizadas) {
         reporteFirestore(estructura);
       }
@@ -132,52 +130,6 @@ class _BotonGuardarState extends State<BotonGuardar> {
       'fecha_reporte': DateTime.now(),
       'fotos': listaUrl,
       'estructura': estructura,
-      /* 'elemento': elemento,
-      'dano': dano,
-      'severidad': severidad,
-      'servicio': servicio,
-      'evento': evento,
-      'fecha_evento': fecha,
-      'zona': zona,
-      'ruta': ruta,
-      'seccion': seccion,
-      'ubicacion': GeoPoint(ubicacion!.latitude, ubicacion.longitude),
-      'observaciones': observaciones, */
-    }).then((value) {
-      context.read<ReportProvider>().setGuardando(false);
-      //_mensajeCierreApp(context);
     });
-  }
-
-  _mensajeCierreApp(BuildContext context) {
-    showDialog(
-      barrierDismissible: false,
-      barrierColor: Colors.black54,
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("¿Desea realizar otro reporte?"),
-        actions: [
-          TextButton(
-            child: const Text(
-              "Sí",
-              style: TextStyle(color: Colors.black),
-            ),
-            onPressed: () {
-              limpiarVariables(context);
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text(
-              "No (salir)",
-              style: TextStyle(color: Colors.black),
-            ),
-            onPressed: () {
-              SystemNavigator.pop();
-            },
-          ),
-        ],
-      ),
-    );
   }
 }
