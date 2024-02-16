@@ -4,5 +4,4 @@ export 'mostrar_ubicacion.dart';
 export 'mostrar_fotos.dart';
 export 'indicador_guardando.dart';
 export 'menu_cierre_sesion.dart';
-export 'boton_guardar.dart';
 export 'logo_titulos.dart';
