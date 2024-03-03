@@ -12,6 +12,8 @@ bool guardando = false;
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
 String id = "";
+String fechaReporte =
+    "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
 
 class ObservacionesPage extends StatefulWidget {
   const ObservacionesPage({Key? key}) : super(key: key);
@@ -119,51 +121,37 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   }
 
   Future<void> subirFotos(BuildContext context) async {
-    int cantReportesHoy = 0;
+    int cantReportes = 0;
     bool fotosOptimizadas = false;
     String usuario =
         Provider.of<ReportProvider>(context, listen: false).usuario;
     List<File> fotos =
         Provider.of<ReportProvider>(context, listen: false).fotos;
     DocumentReference documento =
-        FirebaseFirestore.instance //Para nombrar fotos
-            .collection('contadorReportesUsuario')
-            .doc(usuario);
+        FirebaseFirestore.instance.collection(usuario).doc(fechaReporte);
     documento.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
+        //Para cuando el documento ya existe, se actualiza
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
-        if (data.containsKey('fechaUltimoReporte') &&
-            data.containsKey('cantReportesHoy')) {
-          cantReportesHoy = data['cantReportesHoy'];
-          if (data['fechaUltimoReporte'] ==
-              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}') {
-            //Para cuando el último reporte fue hoy
-            cantReportesHoy++;
-          } else {
-            //Para cuando el último reporte no fue hoy
-            cantReportesHoy = 1;
-          }
+        if (data.containsKey('cantReportes')) {
+          cantReportes = data['cantReportes'];
+          cantReportes++;
           documento.update({
-            'cantReportesHoy': cantReportesHoy,
-            'fechaUltimoReporte':
-                '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}'
+            'cantReportes': cantReportes,
           });
         }
       } else {
         //Para cuando el documento no existe, se crea
+        cantReportes = 1;
         CollectionReference collection =
-            FirebaseFirestore.instance.collection('contadorReportesUsuario');
-        collection.doc(usuario).set({
-          'fechaUltimoReporte':
-              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
-          'cantReportesHoy': 1,
+            FirebaseFirestore.instance.collection(usuario);
+        collection.doc(fechaReporte).set({
+          'cantReportes': cantReportes,
         });
-        cantReportesHoy = 1;
       }
     }).then((value) async {
-      id =
-          '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}_${usuario.split('@').first}_rep-$cantReportesHoy';
+      id = '${fechaReporte}_${usuario.split('@').first}_rep-$cantReportes';
       nombresFoto.clear();
       for (var i = 1; i <= fotos.length; i++) {
         try {
@@ -210,7 +198,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
     var ubicacion =
         Provider.of<ReportProvider>(context, listen: false).ubicacion;
     FirebaseFirestore.instance.collection("reportes").doc(id).set({
-      'fecha_reporte': DateTime.now(),
+      'fecha_reporte': fechaReporte,
       'fotos': listaUrl,
       'estructura':
           Provider.of<ReportProvider>(context, listen: false).estructura,
@@ -220,7 +208,8 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
           Provider.of<ReportProvider>(context, listen: false).severidad,
       'servicio': Provider.of<ReportProvider>(context, listen: false).servicio,
       'evento': Provider.of<ReportProvider>(context, listen: false).evento,
-      'fecha_evento': Provider.of<ReportProvider>(context, listen: false).fecha,
+      'fecha_evento':
+          Provider.of<ReportProvider>(context, listen: false).fechaEvento,
       'zona': Provider.of<ReportProvider>(context, listen: false).zona,
       'ruta':
           int.parse(Provider.of<ReportProvider>(context, listen: false).ruta),

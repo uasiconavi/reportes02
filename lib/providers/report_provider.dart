@@ -16,8 +16,8 @@ class ReportProvider with ChangeNotifier {
   String _severidad = "Baja";
   String _servicio = "Habilitado";
   String _evento = "Lluvia";
-  String _fecha =
-      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+  String _fechaEvento =
+      "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
   bool _primeraVezZona = true;
   String _zona = "1-1 San José";
   bool _primeraVezRuta = true;
@@ -40,7 +40,7 @@ class ReportProvider with ChangeNotifier {
   String get severidad => _severidad;
   String get servicio => _servicio;
   String get evento => _evento;
-  String get fecha => _fecha;
+  String get fechaEvento => _fechaEvento;
   bool get primeraVezZona => _primeraVezZona;
   String get zona => _zona;
   bool get primeraVezRuta => _primeraVezRuta;
@@ -116,8 +116,8 @@ class ReportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setFecha(String newFecha) {
-    _fecha = newFecha;
+  void setFechaEvento(String newFechaEvento) {
+    _fechaEvento = newFechaEvento;
     notifyListeners();
   }
 

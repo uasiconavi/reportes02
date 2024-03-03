@@ -10,7 +10,7 @@ void limpiarVariables(BuildContext context) {
   context.read<ReportProvider>().setSeveridad("Baja");
   context.read<ReportProvider>().setServicio("Habilitado");
   context.read<ReportProvider>().setEvento("Lluvia");
-  context.read<ReportProvider>().setFecha(
+  context.read<ReportProvider>().setFechaEvento(
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
   context.read<ReportProvider>().setPrimeraVezZona(true);
   context.read<ReportProvider>().setZona("1-1 San José");

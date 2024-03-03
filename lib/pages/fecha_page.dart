@@ -32,7 +32,7 @@ class _FechaPageState extends State<FechaPage> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                context.watch<ReportProvider>().fecha,
+                context.watch<ReportProvider>().fechaEvento,
                 style: const TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
@@ -82,8 +82,8 @@ class _FechaPageState extends State<FechaPage> {
       } else {
         fechaEvento = seleccionada;
         if (fechaEvento != null) {
-          context.read<ReportProvider>().setFecha(
-              "${fechaEvento!.day}/${fechaEvento!.month}/${fechaEvento!.year}");
+          context.read<ReportProvider>().setFechaEvento(
+              "${fechaEvento!.day}-${fechaEvento!.month}-${fechaEvento!.year}");
         }
       }
     });

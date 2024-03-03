@@ -129,7 +129,7 @@ class Encabezado extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(context.watch<ReportProvider>().fecha,
+                            Text(context.watch<ReportProvider>().fechaEvento,
                                 style: const TextStyle(
                                   fontSize: 10.0,
                                 )),
