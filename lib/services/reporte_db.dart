@@ -1,5 +1,3 @@
-import 'package:geolocator/geolocator.dart';
-
 class Reporte {
   int? id;
   final String? fechaReporte;
@@ -13,7 +11,6 @@ class Reporte {
   final String? zona;
   final String? ruta;
   final String? seccion;
-  final Position? ubicacion;
   final String? observaciones;
 
   Reporte(
@@ -29,7 +26,6 @@ class Reporte {
       this.zona,
       this.ruta,
       this.seccion,
-      this.ubicacion,
       this.observaciones});
 
   Map<String, dynamic> toMap() {
@@ -46,7 +42,6 @@ class Reporte {
       'zona': zona,
       'ruta': ruta,
       'seccion': seccion,
-      'ubicacion': ubicacion,
       'observaciones': observaciones,
     };
   }

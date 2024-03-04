@@ -54,6 +54,7 @@ class _FotosPageState extends State<FotosPage> {
                     label: const Text('Cámara'),
                     onPressed: cantFotos < 10
                         ? () async {
+                            //await DB.eliminarBaseDeDatos();
                             tomarFoto().then((foto) {
                               if (foto != null) {
                                 context.read<ReportProvider>().addFoto(foto);

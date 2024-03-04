@@ -114,10 +114,37 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
       onPressed: () {
         setState(() {
           guardando = true;
-          subirFotos(context);
+          guardar(context);
+          //subirFotos(context);
         });
       },
     );
+  }
+
+  guardar(BuildContext context) {
+    DB
+        .insert(Reporte(
+      fechaReporte: fechaReporte,
+      estructura:
+          Provider.of<ReportProvider>(context, listen: false).estructura,
+      elemento: Provider.of<ReportProvider>(context, listen: false).elemento,
+      dano: Provider.of<ReportProvider>(context, listen: false).dano,
+      severidad: Provider.of<ReportProvider>(context, listen: false).severidad,
+      servicio: Provider.of<ReportProvider>(context, listen: false).servicio,
+      evento: Provider.of<ReportProvider>(context, listen: false).evento,
+      fechaEvento:
+          Provider.of<ReportProvider>(context, listen: false).fechaEvento,
+      zona: Provider.of<ReportProvider>(context, listen: false).zona,
+      ruta: Provider.of<ReportProvider>(context, listen: false).ruta,
+      seccion: Provider.of<ReportProvider>(context, listen: false).seccion,
+      observaciones:
+          Provider.of<ReportProvider>(context, listen: false).observaciones,
+    ))
+        .then((value) {
+      setState(() {
+        guardando = false;
+      });
+    });
   }
 
   Future<void> subirFotos(BuildContext context) async {
@@ -219,11 +246,11 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
       'observaciones':
           Provider.of<ReportProvider>(context, listen: false).observaciones,
     }).then((value) {
-      _mensajeCierreApp(context);
+      mensajeCierreApp(context);
     });
   }
 
-  _mensajeCierreApp(BuildContext context) {
+  mensajeCierreApp(BuildContext context) {
     setState(() {
       guardando = false;
     });

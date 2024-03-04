@@ -7,7 +7,7 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'reportes.db'),
         onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, observaciones TEXT)",
+        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_reporte TEXT, estructura TEXT, elemento TEXT, dano TEXT, severidad TEXT, servicio TEXT, evento TEXT, fecha_evento TEXT, zona TEXT, ruta TEXT, seccion TEXT, observaciones TEXT)",
       );
     }, version: 1);
   }
@@ -45,8 +45,14 @@ class DB {
               zona: reportesMap[i]['zona'],
               ruta: reportesMap[i]['ruta'],
               seccion: reportesMap[i]['seccion'],
-              ubicacion: reportesMap[i]['ubicacion'],
               observaciones: reportesMap[i]['observaciones'],
             ));
+  }
+
+  static Future<void> eliminarBaseDeDatos() async {
+    final path = join(await getDatabasesPath(), 'reportes.db');
+    Database database = await _openDB();
+    await database.close();
+    await deleteDatabase(path);
   }
 }

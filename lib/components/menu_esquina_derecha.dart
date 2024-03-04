@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../providers/providers.dart';
+import '../pages/pages.dart';
 import 'package:reportes02/main.dart';
 
-class MenuCierreSesion extends StatefulWidget {
-  const MenuCierreSesion({Key? key}) : super(key: key);
+class MenuEsquinaDerecha extends StatefulWidget {
+  const MenuEsquinaDerecha({Key? key}) : super(key: key);
 
   @override
-  State<MenuCierreSesion> createState() => _MenuCierreSesionState();
+  State<MenuEsquinaDerecha> createState() => _MenuEsquinaDerechaState();
 }
 
-class _MenuCierreSesionState extends State<MenuCierreSesion> {
+class _MenuEsquinaDerechaState extends State<MenuEsquinaDerecha> {
   @override
   Widget build(BuildContext context) {
     String usuario = context.watch<ReportProvider>().usuario;
     List<String> menu = [
       usuario,
       "Cerrar sesión",
+      "Reportes pendientes",
     ];
     return DropdownButtonHideUnderline(
       child: DropdownButton<String>(
@@ -58,6 +60,12 @@ class _MenuCierreSesionState extends State<MenuCierreSesion> {
                   ],
                 ),
               );
+            }
+            if (nuevoValor == "Reportes pendientes") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ReportesPendientesPage()));
             }
           }),
     );

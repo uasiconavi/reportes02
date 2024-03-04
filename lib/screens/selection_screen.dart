@@ -19,7 +19,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
             ? backArrow(context)
             : null,
         title: Text(context.watch<PaginationProvider>().titulo),
-        actions: const <Widget>[MenuCierreSesion()],
+        actions: const <Widget>[MenuEsquinaDerecha()],
       ),
       body: context.watch<PaginationProvider>().currentPage,
     );
