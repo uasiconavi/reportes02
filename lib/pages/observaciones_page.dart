@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 bool guardando = false;
 List<String> nombresFoto = [];
 List<String> listaUrl = [];
-String id = "";
+String idRep = "";
 String fechaReporte =
     "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
 
@@ -151,11 +151,11 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
         });
       }
     }).then((value) async {
-      id = '${fechaReporte}_${usuario.split('@').first}_rep-$cantReportes';
+      idRep = '${fechaReporte}_${usuario.split('@').first}_rep-$cantReportes';
       nombresFoto.clear();
       for (var i = 1; i <= fotos.length; i++) {
         try {
-          nombresFoto.add('$usuario/${id}_$i.jpeg');
+          nombresFoto.add('$usuario/${idRep}_$i.jpeg');
           await FirebaseStorage.instance
               .ref()
               .child(nombresFoto[i - 1])
@@ -197,7 +197,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   Future<void> reporteFirestore(BuildContext context) async {
     var ubicacion =
         Provider.of<ReportProvider>(context, listen: false).ubicacion;
-    FirebaseFirestore.instance.collection("reportes").doc(id).set({
+    FirebaseFirestore.instance.collection("reportes").doc(idRep).set({
       'fecha_reporte': fechaReporte,
       'fotos': listaUrl,
       'estructura':
