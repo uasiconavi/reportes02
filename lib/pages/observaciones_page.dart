@@ -122,24 +122,39 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   }
 
   guardar(BuildContext context) {
+    List<File>? fotos =
+        Provider.of<ReportProvider>(context, listen: false).fotos;
     DB
-        .insert(Reporte(
-      fechaReporte: fechaReporte,
-      estructura:
-          Provider.of<ReportProvider>(context, listen: false).estructura,
-      elemento: Provider.of<ReportProvider>(context, listen: false).elemento,
-      dano: Provider.of<ReportProvider>(context, listen: false).dano,
-      severidad: Provider.of<ReportProvider>(context, listen: false).severidad,
-      servicio: Provider.of<ReportProvider>(context, listen: false).servicio,
-      evento: Provider.of<ReportProvider>(context, listen: false).evento,
-      fechaEvento:
-          Provider.of<ReportProvider>(context, listen: false).fechaEvento,
-      zona: Provider.of<ReportProvider>(context, listen: false).zona,
-      ruta: Provider.of<ReportProvider>(context, listen: false).ruta,
-      seccion: Provider.of<ReportProvider>(context, listen: false).seccion,
-      observaciones:
-          Provider.of<ReportProvider>(context, listen: false).observaciones,
-    ))
+        .insert(
+            fotos,
+            Reporte(
+              fechaReporte: fechaReporte,
+              estructura: Provider.of<ReportProvider>(context, listen: false)
+                  .estructura,
+              elemento:
+                  Provider.of<ReportProvider>(context, listen: false).elemento,
+              dano: Provider.of<ReportProvider>(context, listen: false).dano,
+              severidad:
+                  Provider.of<ReportProvider>(context, listen: false).severidad,
+              servicio:
+                  Provider.of<ReportProvider>(context, listen: false).servicio,
+              evento:
+                  Provider.of<ReportProvider>(context, listen: false).evento,
+              fechaEvento: Provider.of<ReportProvider>(context, listen: false)
+                  .fechaEvento,
+              zona: Provider.of<ReportProvider>(context, listen: false).zona,
+              ruta: Provider.of<ReportProvider>(context, listen: false).ruta,
+              seccion:
+                  Provider.of<ReportProvider>(context, listen: false).seccion,
+              latitud: Provider.of<ReportProvider>(context, listen: false)
+                  .ubicacion!
+                  .latitude,
+              longitud: Provider.of<ReportProvider>(context, listen: false)
+                  .ubicacion!
+                  .longitude,
+              observaciones: Provider.of<ReportProvider>(context, listen: false)
+                  .observaciones,
+            ))
         .then((value) {
       setState(() {
         guardando = false;

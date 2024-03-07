@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'reporte_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -7,15 +8,25 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'reportes.db'),
         onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_reporte TEXT, estructura TEXT, elemento TEXT, dano TEXT, severidad TEXT, servicio TEXT, evento TEXT, fecha_evento TEXT, zona TEXT, ruta TEXT, seccion TEXT, observaciones TEXT)",
+        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_reporte TEXT, estructura TEXT, elemento TEXT, dano TEXT, severidad TEXT, servicio TEXT, evento TEXT, fecha_evento TEXT, zona TEXT, ruta TEXT, seccion TEXT, latitud REAL, longitud REAL, observaciones TEXT)",
       );
     }, version: 1);
   }
 
-  static Future insert(Reporte reporte) async {
+  static Future insert(List<File>? fotos, Reporte reporte) async {
+    // Convierte la lista de archivos en una lista de rutas de fotos.
+    final List<String>? fotosPaths = fotos?.map((foto) => foto.path).toList();
+
     Database database = await _openDB();
 
-    return database.insert("reportes", reporte.toMap());
+    // Crea un nuevo mapa que incluye las rutas de las fotos.
+    Map<String, dynamic> reporteMap = reporte.toMap();
+
+    // Añade las rutas de las fotos al mapa.
+    reporteMap['fotos'] = fotosPaths?.join(',');
+
+    // Inserta el nuevo mapa en la base de datos.
+    return database.insert("reportes", reporteMap);
   }
 
   static Future delete(Reporte reporte) async {
@@ -45,6 +56,8 @@ class DB {
               zona: reportesMap[i]['zona'],
               ruta: reportesMap[i]['ruta'],
               seccion: reportesMap[i]['seccion'],
+              latitud: reportesMap[i]['latitud'],
+              longitud: reportesMap[i]['longitud'],
               observaciones: reportesMap[i]['observaciones'],
             ));
   }
