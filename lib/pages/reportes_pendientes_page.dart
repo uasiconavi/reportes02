@@ -24,9 +24,14 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
               itemCount: reportes.length,
               itemBuilder: (context, i) {
                 return Center(
-                  child: ElevatedButton(
-                    child: Text(reportes[i].observaciones.toString()),
-                    onPressed: () {},
+                  child: GestureDetector(
+                    child: Text(
+                      reportes[i].observaciones.toString(),
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onTap: () {},
                   ),
                 );
               })

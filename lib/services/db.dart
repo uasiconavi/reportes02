@@ -8,7 +8,7 @@ class DB {
     return openDatabase(join(await getDatabasesPath(), 'reportes.db'),
         onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_reporte TEXT, estructura TEXT, elemento TEXT, dano TEXT, severidad TEXT, servicio TEXT, evento TEXT, fecha_evento TEXT, zona TEXT, ruta TEXT, seccion TEXT, latitud REAL, longitud REAL, observaciones TEXT)",
+        "CREATE TABLE reportes (id INTEGER PRIMARY KEY AUTOINCREMENT, fotos TEXT, fecha_reporte TEXT, estructura TEXT, elemento TEXT, dano TEXT, severidad TEXT, servicio TEXT, evento TEXT, fecha_evento TEXT, zona TEXT, ruta TEXT, seccion TEXT, latitud REAL, longitud REAL, observaciones TEXT)",
       );
     }, version: 1);
   }
