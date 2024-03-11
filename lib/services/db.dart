@@ -46,6 +46,10 @@ class DB {
         (i) => Reporte(
               id: reportesMap[i]['id'],
               fechaReporte: reportesMap[i]['fecha_reporte'],
+              fotos: (reportesMap[i]['fotos'] as String)
+                  .split(',')
+                  .map((path) => File(path))
+                  .toList(),
               estructura: reportesMap[i]['estructura'],
               elemento: reportesMap[i]['elemento'],
               dano: reportesMap[i]['dano'],
