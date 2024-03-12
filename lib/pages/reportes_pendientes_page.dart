@@ -27,9 +27,9 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
                 return Center(
                   child: GestureDetector(
                     child: Text(
-                      reportes[i].observaciones.toString(),
+                      reportes[i].fechaReporte.toString(),
                       style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                        //decoration: TextDecoration.underline,
                         fontSize: 17.0,
                       ),
                     ),
