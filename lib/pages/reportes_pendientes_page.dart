@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reportes02/pages/reporte_por_guardar_page.dart';
+import 'package:reportes02/pages/reporte_por_subir_page.dart';
 import '../services/services.dart';
 
 class ReportesPendientesPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ReportePorGuardarPage(reporte: reportes[i])));
+                                  ReportePorSubirPage(reporte: reportes[i])));
                     },
                   ),
                 );

@@ -34,7 +34,12 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
       title: 'Daños en la RVN',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color(0xFFFDC300),
+          onPrimary: const Color(0xFF000000),
+        ),
+      ),
       home: const Inicio(),
     );
   }
