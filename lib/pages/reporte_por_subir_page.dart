@@ -253,7 +253,7 @@ class _ReportePorSubirPageState extends State<ReportePorSubirPage> {
               ),
               onPressed: () {},
             ),
-          )
+          ),
         ],
       ),
     );
