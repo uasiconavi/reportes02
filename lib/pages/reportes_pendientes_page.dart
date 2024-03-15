@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reportes02/pages/reporte_por_subir_page.dart';
 import '../services/services.dart';
+import '../components/components.dart';
 
 class ReportesPendientesPage extends StatefulWidget {
   const ReportesPendientesPage({super.key});
@@ -15,45 +16,63 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
   Widget build(BuildContext context) {
     cargaReportes();
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Reportes pendientes"),
-        ),
-        body: reportes.isNotEmpty
-            ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: reportes.length,
-                itemBuilder: (context, i) {
-                  return OutlinedButton(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        reportes[i].fechaReporte.toString(),
-                        style: const TextStyle(
-                          //decoration: TextDecoration.underline,
-                          fontSize: 18.0,
-                          color: Colors.black54,
-                        ),
-                        textAlign: TextAlign.center,
+      appBar: AppBar(
+        title: const Text("Reportes pendientes"),
+        actions: const <Widget>[MenuEsquinaPendientes()],
+      ),
+      body: reportes.isNotEmpty
+          ? ListView(
+              children: [
+                const SizedBox(
+                  height: 8.5,
+                ),
+                for (var reporte in reportes)
+                  OutlinedButton(
+                    child: Text(
+                      reporte.fechaReporte.toString(),
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black54,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ReportePorSubirPage(reporte: reportes[i])));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ReportePorSubirPage(reporte: reporte),
+                        ),
+                      );
                     },
-                  );
-                })
-            : const Center(
-                child: Text(
-                  "No hay reportes pendientes",
-                  style: TextStyle(
-                    fontSize: 17.0,
+                  ),
+                const SizedBox(
+                  height: 8.5,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Icon(Icons.cloud_upload_outlined),
+                        SizedBox(width: 5.0),
+                        Text("Subir todos"),
+                      ],
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-              ));
+              ],
+            )
+          : const Center(
+              child: Text(
+                "No hay reportes pendientes",
+                style: TextStyle(
+                  fontSize: 17.0,
+                ),
+              ),
+            ),
+    );
   }
 
   cargaReportes() async {
