@@ -59,7 +59,9 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
                         Text("Subir todos"),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      subirTodosPregunta(context);
+                    },
                   ),
                 ),
               ],
@@ -77,7 +79,6 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
 
   cargaReportes() async {
     List<Reporte> auxReportes = await DB.reportes();
-
     setState(() {
       reportes = auxReportes;
     });

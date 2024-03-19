@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../services/services.dart';
 import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 bool guardando = false;
 List<String> nombresFoto = [];
@@ -26,6 +27,8 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
   TextEditingController observacionesController =
       TextEditingController(text: "");
   int longCaracteres = 254;
+  List<Reporte> reportes = [];
+  bool conexion = false;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -151,11 +154,39 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
           Provider.of<ReportProvider>(context, listen: false).observaciones,
     );
 
-    DB.insert(fotos, nuevoReporte).then((value) {
-      setState(() {
-        guardando = false;
-      });
+    DB.insert(fotos, nuevoReporte).then((value) async {
+      conexion = await comprobarInternet();
+    }).then((value) {
+      if (conexion == true) {
+        subirFotos(context);
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text(
+                "Reporte pendiente de subir a la nube por falta de conexión"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  mensajeCierreApp(context);
+                },
+                child: const Text(
+                  "Aceptar",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ).then((value) {
+          mensajeCierreApp(context);
+        });
+      }
     });
+  }
+
+  Future<bool> comprobarInternet() async {
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
   }
 
   Future<void> subirFotos(BuildContext context) async {
@@ -257,6 +288,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
       'observaciones':
           Provider.of<ReportProvider>(context, listen: false).observaciones,
     }).then((value) {
+      eliminarUltimoReporte();
       mensajeCierreApp(context);
     });
   }
@@ -294,5 +326,19 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
         ],
       ),
     );
+  }
+
+  eliminarUltimoReporte() async {
+    if (conexion) {
+      await cargaReportes();
+      DB.delete(reportes.last);
+    }
+  }
+
+  cargaReportes() async {
+    List<Reporte> auxReportes = await DB.reportes();
+    setState(() {
+      reportes = auxReportes;
+    });
   }
 }

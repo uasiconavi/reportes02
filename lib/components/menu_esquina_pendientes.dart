@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reportes02/components/components.dart';
 
 class MenuEsquinaPendientes extends StatefulWidget {
   const MenuEsquinaPendientes({Key? key}) : super(key: key);
@@ -28,31 +29,7 @@ class _MenuEsquinaPendientesState extends State<MenuEsquinaPendientes> {
           }).toList(),
           onChanged: (String? nuevoValor) {
             if (nuevoValor == "Subir todos") {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title:
-                      const Text("¿Desea subir todos los reportes a la nube?"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Sí",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "No",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              subirTodosPregunta(context);
             }
           }),
     );
