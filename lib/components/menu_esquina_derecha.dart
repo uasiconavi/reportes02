@@ -27,9 +27,16 @@ class _MenuEsquinaDerechaState extends State<MenuEsquinaDerecha> {
     ];
     return Badge(
       showBadge: reportes.isEmpty ? false : true,
-      badgeContent: Text(reportes.length.toString()),
-      position: BadgePosition.topStart(),
-      badgeStyle: const BadgeStyle(badgeColor: Color(0xFFFDC300)),
+      badgeContent: Text(
+        reportes.length.toString(),
+        style: const TextStyle(
+          fontSize: 11.0,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      position: BadgePosition.topStart(top: 2, start: -21),
+      badgeStyle: const BadgeStyle(badgeColor: Color(0xFF000000)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
             value: usuario,
@@ -70,7 +77,7 @@ class _MenuEsquinaDerechaState extends State<MenuEsquinaDerecha> {
                   ),
                 );
               }
-              if (nuevoValor == "Reportes pendientes") {
+              if (nuevoValor == "Reportes pendientes  (${reportes.length})") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -160,6 +160,9 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
       if (conexion == true) {
         subirFotos(context);
       } else {
+        setState(() {
+          guardando = false;
+        });
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -168,6 +171,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
             actions: [
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
                   mensajeCierreApp(context);
                 },
                 child: const Text(

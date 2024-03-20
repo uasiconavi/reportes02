@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'reporte_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -32,8 +33,20 @@ class DB {
   static Future delete(Reporte reporte) async {
     Database database = await _openDB();
 
-    return database
-        .delete("reportes", where: "id = ?", whereArgs: [reporte.id]);
+    // Obtiene las rutas de las fotos asociadas al reporte
+    List<String>? fotosPaths = reporte.fotos!.map((foto) => foto.path).toList();
+
+    // Elimina el registro de la base de datos
+    await database.delete("reportes", where: "id = ?", whereArgs: [reporte.id]);
+
+    // Elimina los archivos de fotos asociados
+    for (String path in fotosPaths) {
+      try {
+        await File(path).delete();
+      } catch (e) {
+        debugPrint("Error al eliminar el archivo: $e");
+      }
+    }
   }
 
   static Future<List<Reporte>> reportes() async {

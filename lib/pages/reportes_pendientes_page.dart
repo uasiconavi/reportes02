@@ -18,7 +18,8 @@ class _ReportesPendientesPageState extends State<ReportesPendientesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Reportes pendientes"),
-        actions: const <Widget>[MenuEsquinaPendientes()],
+        actions:
+            reportes.isEmpty ? null : const <Widget>[MenuEsquinaPendientes()],
       ),
       body: reportes.isNotEmpty
           ? ListView(
