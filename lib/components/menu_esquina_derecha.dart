@@ -28,7 +28,9 @@ class _MenuEsquinaDerechaState extends State<MenuEsquinaDerecha> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 14.0, top: 5.0),
+          padding: reportes.isNotEmpty
+              ? const EdgeInsets.only(right: 14.0, top: 5.0)
+              : const EdgeInsets.only(top: 5.0),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: usuario,
@@ -82,29 +84,23 @@ class _MenuEsquinaDerechaState extends State<MenuEsquinaDerecha> {
           ),
         ),
         Positioned(
-          top: -5,
-          right: -5,
-          child: ClipOval(
-            child: Container(
-              color: const Color(0xFF000000),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Badge(
-                  showBadge: reportes.isNotEmpty,
-                  badgeContent: Text(
-                    reportes.length.toString(),
-                    style: const TextStyle(
-                      fontSize: 10.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  badgeStyle: const BadgeStyle(
-                    badgeColor: Color(0xFF000000),
-                    shape: BadgeShape.circle,
-                  ),
-                ),
+          top: 3,
+          right: 3,
+          child: Badge(
+            showBadge: reportes.isNotEmpty,
+            badgeContent: Text(
+              reportes.length.toString(),
+              style: const TextStyle(
+                fontSize: 11.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+            badgeStyle: BadgeStyle(
+              badgeColor: const Color(0xFF821f15),
+              shape: reportes.length <= 9
+                  ? BadgeShape.twitter
+                  : BadgeShape.instagram,
             ),
           ),
         ),

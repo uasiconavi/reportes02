@@ -164,6 +164,8 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
           guardando = false;
         });
         showDialog(
+          barrierDismissible: false,
+          barrierColor: Colors.black54,
           context: context,
           builder: (context) => AlertDialog(
             title: const Text(
@@ -172,7 +174,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  mensajeCierreApp(context);
+                  //mensajeCierreApp(context);
                 },
                 child: const Text(
                   "Aceptar",
@@ -181,9 +183,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
               ),
             ],
           ),
-        ).then((value) {
-          mensajeCierreApp(context);
-        });
+        );
       }
     });
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 subirTodosPregunta(BuildContext context) {
   showDialog(
+    barrierDismissible: false,
+    barrierColor: Colors.black54,
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("¿Desea subir todos los reportes a la nube?"),
