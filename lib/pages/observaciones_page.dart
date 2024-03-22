@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../services/services.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 bool guardando = false;
 List<String> nombresFoto = [];
@@ -174,7 +175,8 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  //mensajeCierreApp(context);
+                  revisarAppBadge();
+                  mensajeCierreApp(context);
                 },
                 child: const Text(
                   "Aceptar",
@@ -293,6 +295,7 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
           Provider.of<ReportProvider>(context, listen: false).observaciones,
     }).then((value) {
       eliminarUltimoReporte();
+      revisarAppBadge();
       mensajeCierreApp(context);
     });
   }
@@ -344,5 +347,27 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
     setState(() {
       reportes = auxReportes;
     });
+  }
+
+  revisarAppBadge() async {
+    try {
+      bool appBadgerSoportado = await FlutterAppBadger.isAppBadgeSupported();
+      if (appBadgerSoportado) {
+        if (reportes.isNotEmpty) {
+          FlutterAppBadger.updateBadgeCount(reportes.length);
+        } else {
+          FlutterAppBadger.removeBadge();
+        }
+      } else {
+        debugPrint("APP BADGER NO SOPORTADO");
+      }
+    } on PlatformException {
+      debugPrint("Excepción de AppBadger");
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
   }
 }
