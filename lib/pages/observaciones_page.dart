@@ -119,7 +119,6 @@ class _ObservacionesPageState extends State<ObservacionesPage> {
         setState(() {
           guardando = true;
           guardar(context);
-          //subirFotos(context);
         });
       },
     );
